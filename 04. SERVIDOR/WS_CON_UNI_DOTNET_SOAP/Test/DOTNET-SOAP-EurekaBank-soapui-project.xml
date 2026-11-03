@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="c9705f46-d4dd-4395-8f28-f3bd008b5e0e" activeEnvironment="Default" name="DOTNET_SOAP_EurekaBank" resourceRoot="" soapui-version="5.10.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="ca7e51d4-2b7b-44c7-8885-f43c83cce44d" wsaVersion="NONE" name="BasicHttpBinding_ILoginWebService_soap" type="wsdl" bindingName="{http://tempuri.org/}BasicHttpBinding_ILoginWebService_soap" soapVersion="1_1" anonymous="optional" definition="https://localhost:7156/LoginWebService.svc?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="https://localhost:7156/LoginWebService.svc?wsdl"><con:part><con:url>https://localhost:7156/LoginWebService.svc?wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://tempuri.org/" name="ILoginWebService" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://tempuri.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.microsoft.com/ws/06/2004/policy/http" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <xsd:element name="Login">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="username" type="xsd:string"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="password" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LoginResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="LoginResult" type="tns:LoginResponseDTO"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="LoginResponseDTO">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:ResponseDTO">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="1" name="Token" type="xsd:string"/>
+              <xsd:element minOccurs="0" maxOccurs="1" name="Nombre" type="xsd:string"/>
+              <xsd:element minOccurs="0" maxOccurs="1" name="EstadoUsuario" type="xsd:string"/>
+              <xsd:element minOccurs="0" maxOccurs="1" name="TipoUsuario" type="xsd:string"/>
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="ResponseDTO">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="Estado" type="tns:EstadosEnum"/>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Mensaje" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="EstadosEnum">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="OK"/>
+          <xsd:enumeration value="ERROR"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ILoginWebService_Login_InputMessage">
+    <wsdl:part name="parameters" element="tns:Login"/>
+  </wsdl:message>
+  <wsdl:message name="ILoginWebService_Login_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoginResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="ILoginWebService">
+    <wsdl:operation name="Login">
+      <wsdl:input message="tns:ILoginWebService_Login_InputMessage"/>
+      <wsdl:output message="tns:ILoginWebService_Login_OutputMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ILoginWebService_soap" type="tns:ILoginWebService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="Login">
+      <soap:operation soapAction="http://tempuri.org/ILoginWebService/Login" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ILoginWebService">
+    <wsdl:port name="BasicHttpBinding_ILoginWebService_soap" binding="tns:BasicHttpBinding_ILoginWebService_soap">
+      <soap:address location="https://localhost:7156/LoginWebService.svc"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://localhost:7156/LoginWebService.svc</con:endpoint></con:endpoints><con:operation id="ee23f93d-a9f6-4837-8e49-4dadfbd5de50" isOneWay="false" action="http://tempuri.org/ILoginWebService/Login" name="Login" bindingOperationName="Login" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="34db499c-f316-4a15-b947-1210f9aeaf97" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://localhost:7156/LoginWebService.svc</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <tem:Login>\r
+         <!--Optional:-->\r
+         <username>empl1234</username>
+         <!--Optional:-->
+         <password>empl1234</password>
+      </tem:Login>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/ILoginWebService/Login"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="b72a595a-f452-4f81-baba-4e7a64b9ccd0" wsaVersion="NONE" name="BasicHttpBinding_IMovimientoWebService_soap" type="wsdl" bindingName="{http://tempuri.org/}BasicHttpBinding_IMovimientoWebService_soap" soapVersion="1_1" anonymous="optional" definition="https://localhost:7156/MovimientoWebService.svc?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="https://localhost:7156/MovimientoWebService.svc?wsdl"><con:part><con:url>https://localhost:7156/MovimientoWebService.svc?wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://tempuri.org/" name="IMovimientoWebService" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://tempuri.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.microsoft.com/ws/06/2004/policy/http" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <xsd:element name="deposito">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="token" type="xsd:string"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="cuentaOrigen" type="xsd:string"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="cuentaDestino" type="xsd:string"/>
+            <xsd:element minOccurs="1" maxOccurs="1" name="valor" type="xsd:double"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="depositoResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="depositoResult" type="tns:MovimientoResponseDTO"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="retiro">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="token" type="xsd:string"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="cuentaOrigen" type="xsd:string"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="cuentaDestino" type="xsd:string"/>
+            <xsd:element minOccurs="1" maxOccurs="1" name="valor" type="xsd:double"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="retiroResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="retiroResult" type="tns:MovimientoResponseDTO"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="transferencia">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="token" type="xsd:string"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="cuentaOrigen" type="xsd:string"/>
+            <xsd:element minOccurs="0" maxOccurs="1" name="cuentaDestino" type="xsd:string"/>
+            <xsd:element minOccurs="1" maxOccurs="1" name="valor" type="xsd:double"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="transferenciaResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="transferenciaResult" type="tns:MovimientoResponseDTO"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="MovimientoResponseDTO">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:ResponseDTO">
+            <xsd:sequence>
+              <xsd:element minOccurs="1" maxOccurs="1" name="IdMovimiento" type="xsd:int"/>
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="ResponseDTO">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="Estado" type="tns:EstadosEnum"/>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Mensaje" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="EstadosEnum">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="OK"/>
+          <xsd:enumeration value="ERROR"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMovimientoWebService_deposito_InputMessage">
+    <wsdl:part name="parameters" element="tns:deposito"/>
+  </wsdl:message>
+  <wsdl:message name="IMovimientoWebService_deposito_OutputMessage">
+    <wsdl:part name="parameters" element="tns:depositoResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IMovimientoWebService_retiro_InputMessage">
+    <wsdl:part name="parameters" element="tns:retiro"/>
+  </wsdl:message>
+  <wsdl:message name="IMovimientoWebService_retiro_OutputMessage">
+    <wsdl:part name="parameters" element="tns:retiroResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IMovimientoWebService_transferencia_InputMessage">
+    <wsdl:part name="parameters" element="tns:transferencia"/>
+  </wsdl:message>
+  <wsdl:message name="IMovimientoWebService_transferencia_OutputMessage">
+    <wsdl:part name="parameters" element="tns:transferenciaResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="IMovimientoWebService">
+    <wsdl:operation name="deposito">
+      <wsdl:input message="tns:IMovimientoWebService_deposito_InputMessage"/>
+      <wsdl:output message="tns:IMovimientoWebService_deposito_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="retiro">
+      <wsdl:input message="tns:IMovimientoWebService_retiro_InputMessage"/>
+      <wsdl:output message="tns:IMovimientoWebService_retiro_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="transferencia">
+      <wsdl:input message="tns:IMovimientoWebService_transferencia_InputMessage"/>
+      <wsdl:output message="tns:IMovimientoWebService_transferencia_OutputMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IMovimientoWebService_soap" type="tns:IMovimientoWebService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="deposito">
+      <soap:operation soapAction="http://tempuri.org/IMovimientoWebService/deposito" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="retiro">
+      <soap:operation soapAction="http://tempuri.org/IMovimientoWebService/retiro" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="transferencia">
+      <soap:operation soapAction="http://tempuri.org/IMovimientoWebService/transferencia" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IMovimientoWebService">
+    <wsdl:port name="BasicHttpBinding_IMovimientoWebService_soap" binding="tns:BasicHttpBinding_IMovimientoWebService_soap">
+      <soap:address location="https://localhost:7156/MovimientoWebService.svc"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://localhost:7156/MovimientoWebService.svc</con:endpoint></con:endpoints><con:operation id="df6dd8d3-b9d2-4b12-ae54-9b49696589f6" isOneWay="false" action="http://tempuri.org/IMovimientoWebService/deposito" name="deposito" bindingOperationName="deposito" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="51a14512-3601-4e84-9cac-1d3c13e9379d" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://localhost:7156/MovimientoWebService.svc</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <tem:deposito>\r
+         <!--Optional:-->
+         <token>123</token>
+         <!--Optional:-->
+         <cuentaOrigen>1</cuentaOrigen>
+         <!--Optional:-->
+         <cuentaDestino>123123</cuentaDestino>
+         <valor>150</valor>
+      </tem:deposito>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/IMovimientoWebService/deposito"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="bef26d46-ac61-4440-8e99-d40736e209a3" isOneWay="false" action="http://tempuri.org/IMovimientoWebService/retiro" name="retiro" bindingOperationName="retiro" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="800c6ab9-47b1-4162-b404-5373a5714702" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://localhost:7156/MovimientoWebService.svc</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <tem:retiro>\r
+         <!--Optional:-->\r
+         <tem:token>123</tem:token>\r
+         <!--Optional:-->\r
+         <tem:cuentaOrigen>123123</tem:cuentaOrigen>\r
+         <!--Optional:-->\r
+         <tem:cuentaDestino>123123</tem:cuentaDestino>\r
+         <tem:valor>10</tem:valor>\r
+      </tem:retiro>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/IMovimientoWebService/retiro"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="983f16d5-b49f-45af-affb-3e1d7883d93f" isOneWay="false" action="http://tempuri.org/IMovimientoWebService/transferencia" name="transferencia" bindingOperationName="transferencia" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="bc1528a3-b79e-451b-8d20-517d27c50e0e" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://localhost:7156/MovimientoWebService.svc</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <tem:transferencia>\r
+         <!--Optional:-->\r
+         <tem:token>123</tem:token>\r
+         <!--Optional:-->\r
+         <tem:cuentaOrigen>2</tem:cuentaOrigen>\r
+         <!--Optional:-->\r
+         <tem:cuentaDestino>123123</tem:cuentaDestino>\r
+         <tem:valor>1999000</tem:valor>\r
+      </tem:transferencia>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/IMovimientoWebService/transferencia"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
