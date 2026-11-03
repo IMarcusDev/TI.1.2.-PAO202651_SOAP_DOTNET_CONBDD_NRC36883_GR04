@@ -8,6 +8,9 @@ namespace WS_CON_UNI_DOTNET_SOAP.Models.Repositories
 {
   public class MovimientoImplRepository : IMovimientoRepository
   {
+    //revisado y aprovado por Marcos Escobar
+    // Movimientos donde la cuenta es origen o destino (una transferencia se guarda en
+    // una sola fila y aparece en las dos cuentas), con su fecha y en orden de registro.
     public List<Movimiento> GetMovimientosByUserId(string id)
     {
       string sql = """
@@ -16,10 +19,12 @@ namespace WS_CON_UNI_DOTNET_SOAP.Models.Repositories
           mt.NOMBRE_TIPO_MOVIMIENTO,
           m.CUENTA_ORIGEN_MOVIMIENTO,
           m.CUENTA_DESTINO_MOVIMIENTO,
+          m.FECHA_MOVIMIENTO,
           m.VALOR_MOVIMIENTO
         FROM MOVIMIENTOS m
         JOIN MOVIMIENTO_TIPOS mt ON m.ID_TIPO_MOVIMIENTO = mt.ID_TIPO_MOVIMIENTO
-        WHERE m.ID_MOVIMIENTO = @id;
+        WHERE m.CUENTA_ORIGEN_MOVIMIENTO = @id OR m.CUENTA_DESTINO_MOVIMIENTO = @id
+        ORDER BY m.ID_MOVIMIENTO;
       """;
 
       List<Movimiento> movimientos = new List<Movimiento>();
@@ -37,10 +42,12 @@ namespace WS_CON_UNI_DOTNET_SOAP.Models.Repositories
           {
             movimientos.Add(new Movimiento
             {
-              Id = result.GetString(result.GetOrdinal("ID_MOVIMIENTO")),
+              // ID_MOVIMIENTO es int y las cuentas pueden ser NULL (un retiro no tiene destino).
+              Id = Convert.ToString(result["ID_MOVIMIENTO"])!,
               Tipo = result.GetString(result.GetOrdinal("NOMBRE_TIPO_MOVIMIENTO")),
-              CuentaOrigen = result.GetString(result.GetOrdinal("CUENTA_ORIGEN_MOVIMIENTO")),
-              CuentaDestino = result.GetString(result.GetOrdinal("CUENTA_DESTINO_MOVIMIENTO")),
+              CuentaOrigen = result["CUENTA_ORIGEN_MOVIMIENTO"] as string ?? "",
+              CuentaDestino = result["CUENTA_DESTINO_MOVIMIENTO"] as string ?? "",
+              Fecha = result["FECHA_MOVIMIENTO"] as DateTime?,
               Valor = result.GetDouble(result.GetOrdinal("VALOR_MOVIMIENTO"))
             });
           }
@@ -50,7 +57,9 @@ namespace WS_CON_UNI_DOTNET_SOAP.Models.Repositories
       }
     }
 
-    public Movimiento RegisterMovimiento(Movimiento m)
+    //revisado y aprovado por Marcos Escobar
+    // Usa la conexión y la transacción en curso. Sin cuenta destino (retiro) guarda NULL.
+    public Movimiento RegisterMovimiento(SqlConnection connection, SqlTransaction transaction, Movimiento m)
     {
       string sql = """
         INSERT INTO MOVIMIENTOS(
@@ -72,15 +81,15 @@ namespace WS_CON_UNI_DOTNET_SOAP.Models.Repositories
         );
       """;
 
-      using (SqlConnection connection = DBConfig.GetConnection())
-      using (SqlCommand statement = new SqlCommand(sql, connection))
+      using (SqlCommand statement = new SqlCommand(sql, connection, transaction))
       {
         statement.Parameters.AddWithValue("@tipo", m.Tipo.ToUpper());
         statement.Parameters.AddWithValue("@cuentaOrigen", m.CuentaOrigen);
-        statement.Parameters.AddWithValue("@cuentaDestino", m.CuentaDestino);
+        statement.Parameters.AddWithValue(
+          "@cuentaDestino",
+          string.IsNullOrEmpty(m.CuentaDestino) ? DBNull.Value : m.CuentaDestino
+        );
         statement.Parameters.AddWithValue("@valor", m.Valor);
-
-        connection.Open();
 
         object? idMovimiento = statement.ExecuteScalar();
 

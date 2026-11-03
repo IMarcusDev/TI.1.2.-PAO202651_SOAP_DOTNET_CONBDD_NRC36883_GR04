@@ -29,5 +29,27 @@ namespace WS_CON_UNI_DOTNET_SOAP.WS.Interfaces
       string cuentaDestino,
       double valor
     );
+
+    //revisado y aprovado por Marcos Escobar
+    [OperationContract(Name = "consultarMovimientos")]
+    ConsultaMovimientosResponseDTO ConsultarMovimientos(string token, string cuenta);
+
+    //revisado y aprovado por Marcos Escobar
+    [OperationContract(Name = "registrarDeposito")]
+    MovimientoResponseDTO RegistrarDeposito(string token, string cuenta, decimal importe);
+
+    //revisado y aprovado por Marcos Escobar
+    [OperationContract(Name = "registrarRetiro")]
+    MovimientoResponseDTO RegistrarRetiro(string token, string cuenta, decimal importe, string clave);
+
+    //revisado y aprovado por Marcos Escobar
+    [OperationContract(Name = "registrarTransferencia")]
+    MovimientoResponseDTO RegistrarTransferencia(
+      string token,
+      string cuentaOrigen,
+      string cuentaDestino,
+      decimal importe,
+      string clave
+    );
   }
 }

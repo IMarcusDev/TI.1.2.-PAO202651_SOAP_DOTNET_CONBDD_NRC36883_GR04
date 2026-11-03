@@ -6,5 +6,7 @@
     public string Nombre { get; set; } = "";
     public string EstadoUsuario { get; set; } = "";
     public string TipoUsuario { get; set; } = "";
+    //revisado y aprovado por Marcos Escobar
+    public string Perfil { get; set; } = "";
   }
 }

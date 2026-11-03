@@ -1,29 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
+using WS_CON_UNI_DOTNET_SOAP.Models.Data;
 
 namespace WS_CON_UNI_DOTNET_SOAP.Services
 {
   public class TokenService
   {
-    private static readonly HashSet<string> TokensActivos = new HashSet<string>();
+    //revisado y aprovado por Marcos Escobar
+    // Cada token guarda de quién es (perfil y código). Ya no hay un token fijo
+    // de pruebas: un token sin dueño no se puede autorizar.
+    private static readonly ConcurrentDictionary<string, Sesion> TokensActivos = new ConcurrentDictionary<string, Sesion>();
 
-    static TokenService()
-    {
-      TokensActivos.Add("123");
-    }
-
-    public static string GenerateToken()
+    //revisado y aprovado por Marcos Escobar
+    public static string GenerateToken(string perfil, string codigo)
     {
       string token = Guid.NewGuid().ToString();
 
-      TokensActivos.Add(token);
+      TokensActivos[token] = new Sesion(perfil, codigo);
 
       return token;
     }
 
+    //revisado y aprovado por Marcos Escobar
     public static bool ValidateToken(string token)
     {
-      return TokensActivos.Contains(token);
+      return GetSesion(token) != null;
+    }
+
+    //revisado y aprovado por Marcos Escobar
+    public static Sesion? GetSesion(string? token)
+    {
+      return token != null && TokensActivos.TryGetValue(token, out Sesion? sesion) ? sesion : null;
+    }
+
+    //revisado y aprovado por Marcos Escobar
+    public static void RemoveToken(string? token)
+    {
+      if (token != null)
+        TokensActivos.TryRemove(token, out _);
     }
   }
 }

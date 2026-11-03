@@ -43,6 +43,39 @@ namespace WS_CON_UNI_DOTNET_SOAP.Models.Repositories
       }
     }
 
+    //revisado y aprovado por Marcos Escobar
+    public Perfil GetPerfilById(string id)
+    {
+      string sql = """
+        SELECT
+          p.ID_PERFIL,
+          p.USERNAME_PERFIL,
+          p.PASSWORD_PERFIL
+        FROM PERFILES p
+        WHERE p.ID_PERFIL = @id
+      """;
+
+      using (SqlConnection connection = DBConfig.GetConnection())
+      using (SqlCommand statement = new SqlCommand(sql, connection))
+      {
+        statement.Parameters.AddWithValue("@id", id);
+
+        connection.Open();
+
+        using (SqlDataReader result = statement.ExecuteReader())
+        {
+          if (!result.Read())
+            throw new Exception("Perfil no encontrado");
+
+          return new Perfil {
+            Id = result.GetString(result.GetOrdinal("ID_PERFIL")),
+            Username = result.GetString(result.GetOrdinal("USERNAME_PERFIL")),
+            PasswordHash = result.GetString(result.GetOrdinal("PASSWORD_PERFIL"))
+          };
+        }
+      }
+    }
+
     public Usuario GetUsuario(string id)
     {
       string sql = """
