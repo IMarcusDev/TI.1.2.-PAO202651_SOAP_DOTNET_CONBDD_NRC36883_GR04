@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>MOV_EUREKABANK_DOTNET_SOAP.Pruebas</RootNamespace>
+	</PropertyGroup>
+
+	<!-- Enlaza el código de la app que no depende de MAUI (modelo y controladores). -->
+	<ItemGroup>
+		<Compile Include="..\Config\*.cs" LinkBase="App\Config" />
+		<Compile Include="..\Controlador\*.cs" LinkBase="App\Controlador" />
+		<Compile Include="..\Modelos\**\*.cs" LinkBase="App\Modelos" />
+		<Compile Include="..\Servicios\*.cs" Exclude="..\Servicios\RedMaui.cs" LinkBase="App\Servicios" />
+		<Compile Include="..\Utils\*.cs" LinkBase="App\Utils" />
+	</ItemGroup>
+
+</Project>

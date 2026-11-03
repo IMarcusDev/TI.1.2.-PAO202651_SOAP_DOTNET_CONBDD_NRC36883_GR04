@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vista:PestanaPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                   xmlns:vista="clr-namespace:MOV_EUREKABANK_DOTNET_SOAP.Vista"
+                   xmlns:comp="clr-namespace:MOV_EUREKABANK_DOTNET_SOAP.Vista.Componentes"
+                   x:Class="MOV_EUREKABANK_DOTNET_SOAP.Vista.OperacionesPage"
+                   BackgroundColor="{StaticResource FondoApp}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="0">
+
+            <Label Style="{StaticResource TituloSeccion}" Text="¿Qué operación desea registrar?" />
+            <comp:Segmentos x:Name="GrupoTipo" Margin="0,12,0,0" />
+            <Label x:Name="LblDescripcion" Style="{StaticResource Secundario}" Margin="0,10,0,0" />
+
+            <!-- Cliente: cuenta de la sesión y saldo disponible -->
+            <Border x:Name="TarjetaOrigen" Style="{StaticResource Tarjeta}" Padding="16" Margin="0,16,0,0" IsVisible="False">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                    <Border WidthRequest="44" HeightRequest="44" StrokeThickness="0" StrokeShape="Ellipse"
+                            BackgroundColor="{StaticResource EurekaPrimarioSuave}">
+                        <comp:Icono Datos="{x:Static comp:Iconos.Tarjeta}" Color="{StaticResource EurekaPrimario}" />
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                        <Label Style="{StaticResource Etiqueta}" Text="Desde su cuenta" />
+                        <Label x:Name="LblCuentaOrigen" FontSize="18" FontFamily="OpenSansSemibold" CharacterSpacing="0.8"
+                               TextColor="{StaticResource TextoOscuro}" />
+                        <Label x:Name="LblSaldoOrigen" Style="{StaticResource Secundario}" IsVisible="False" />
+                    </VerticalStackLayout>
+                    <ActivityIndicator x:Name="PrgOrigen" Grid.Column="2" Color="{StaticResource EurekaPrimario}"
+                                       WidthRequest="24" HeightRequest="24" IsVisible="False" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Tarjeta}" Padding="16" Margin="0,16,0,0">
+                <VerticalStackLayout Spacing="12">
+                    <comp:CampoTexto x:Name="CampoCuenta" Titulo="Número de cuenta" IconoDatos="{x:Static comp:Iconos.Tarjeta}"
+                                     Teclado="Numeric" LargoMaximo="8" TipoRetorno="Next" />
+                    <comp:CampoTexto x:Name="CampoDestino" Titulo="Cuenta de destino" IconoDatos="{x:Static comp:Iconos.Transferir}"
+                                     Teclado="Numeric" LargoMaximo="8" TipoRetorno="Next" />
+                    <comp:CampoTexto x:Name="CampoImporte" Titulo="Importe" Ayuda="Hasta dos decimales"
+                                     Teclado="Numeric" LargoMaximo="13" />
+                    <comp:CampoTexto x:Name="CampoClave" Titulo="Clave de la cuenta" IconoDatos="{x:Static comp:Iconos.Candado}"
+                                     Teclado="Numeric" LargoMaximo="6" EsClave="True" TipoRetorno="Done" />
+                </VerticalStackLayout>
+            </Border>
+
+            <comp:AvisoError x:Name="LblError" Margin="0,16,0,0" />
+
+            <comp:BotonCarga x:Name="BtnRegistrar" Margin="0,20,0,8" />
+        </VerticalStackLayout>
+    </ScrollView>
+</vista:PestanaPage>

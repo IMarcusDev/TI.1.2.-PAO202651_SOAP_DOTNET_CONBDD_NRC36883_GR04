@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vista:PestanaPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                   xmlns:vista="clr-namespace:MOV_EUREKABANK_DOTNET_SOAP.Vista"
+                   xmlns:comp="clr-namespace:MOV_EUREKABANK_DOTNET_SOAP.Vista.Componentes"
+                   x:Class="MOV_EUREKABANK_DOTNET_SOAP.Vista.InicioPage"
+                   BackgroundColor="{StaticResource FondoApp}">
+
+    <RefreshView x:Name="Refrescar" RefreshColor="{StaticResource EurekaPrimario}">
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="0">
+
+                <Label Style="{StaticResource Secundario}" FontSize="16" Text="Hola," />
+                <Label x:Name="LblNombre" FontSize="24" FontFamily="OpenSansSemibold"
+                       TextColor="{StaticResource TextoOscuro}" />
+                <Border Style="{StaticResource Pastilla}" BackgroundColor="{StaticResource EurekaPrimarioSuave}" Margin="0,8,0,0">
+                    <Label x:Name="LblPerfil" Style="{StaticResource TextoPastilla}" TextColor="{StaticResource EurekaPrimario}" />
+                </Border>
+
+                <!-- Cliente: cuenta de la sesión -->
+                <Border x:Name="TarjetaCuenta" Style="{StaticResource TarjetaPrimaria}" Margin="0,20,0,0"
+                        MinimumHeightRequest="176" IsVisible="False">
+                    <Grid>
+                        <!-- Detalle decorativo: círculo translúcido en la esquina superior derecha -->
+                        <Ellipse WidthRequest="180" HeightRequest="180" Fill="#14FFFFFF"
+                                 HorizontalOptions="End" VerticalOptions="Start" Margin="0,-92,-82,0" />
+
+                        <VerticalStackLayout x:Name="DatosCuenta" Spacing="0">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Cuenta de ahorros" TextColor="{StaticResource TextoSobrePrimario}"
+                                       FontSize="14" VerticalOptions="Center" />
+                                <Border Grid.Column="1" Style="{StaticResource Pastilla}" BackgroundColor="{StaticResource BlancoTranslucido}">
+                                    <Label x:Name="LblEstadoCuenta" Style="{StaticResource TextoPastilla}" TextColor="White" />
+                                </Border>
+                            </Grid>
+                            <Label x:Name="LblNumeroCuenta" TextColor="White" FontSize="16" CharacterSpacing="1.3" Margin="0,2,0,0" />
+                            <Label Text="Saldo disponible" TextColor="{StaticResource TextoSobrePrimario}" FontSize="13" Margin="0,22,0,0" />
+                            <Label x:Name="LblSaldo" TextColor="White" FontSize="32" FontFamily="OpenSansSemibold"
+                                   LineBreakMode="TailTruncation" MaxLines="1" />
+                            <Label x:Name="LblTitular" TextColor="{StaticResource TextoSobrePrimario}" FontSize="14" Margin="0,6,0,0" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout x:Name="EstadoCargaCuenta" Spacing="12" IsVisible="False"
+                                             HorizontalOptions="Center" VerticalOptions="Center">
+                            <ActivityIndicator x:Name="PrgCuenta" Color="White" IsRunning="True" WidthRequest="32" HeightRequest="32" />
+                            <Label x:Name="LblEstadoCarga" TextColor="White" FontSize="14" HorizontalTextAlignment="Center" />
+                            <Button x:Name="BtnReintentarCuenta" Style="{StaticResource BotonContorno}" Text="Reintentar"
+                                    HorizontalOptions="Center" IsVisible="False" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Empleado: ventanilla -->
+                <Border x:Name="TarjetaVentanilla" Style="{StaticResource TarjetaPrimaria}" Margin="0,20,0,0" IsVisible="False">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                        <Border WidthRequest="50" HeightRequest="50" BackgroundColor="{StaticResource BlancoTranslucido}"
+                                StrokeThickness="0" StrokeShape="RoundRectangle 14" VerticalOptions="Center">
+                            <comp:Icono Datos="{x:Static comp:Iconos.Banco}" Color="White" Tamano="24" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                            <Label Text="Ventanilla" TextColor="White" FontSize="18" FontFamily="OpenSansSemibold" />
+                            <Label TextColor="{StaticResource TextoSobrePrimario}" FontSize="14"
+                                   Text="Consulte cualquier cuenta y registre depósitos, retiros y transferencias en nombre de los clientes." />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <Label Style="{StaticResource TituloSeccion}" Text="¿Qué desea hacer?" Margin="0,28,0,0" />
+                <Border Style="{StaticResource Tarjeta}" Margin="0,12,0,0">
+                    <VerticalStackLayout x:Name="ListaAcciones" />
+                </Border>
+
+                <!-- Cliente: últimos movimientos -->
+                <VerticalStackLayout x:Name="SeccionUltimos" Margin="0,24,0,0" IsVisible="False">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Style="{StaticResource TituloSeccion}" Text="Últimos movimientos" VerticalOptions="Center" />
+                        <Button x:Name="BtnVerTodos" Grid.Column="1" Style="{StaticResource BotonTexto}" Text="Ver todos" />
+                    </Grid>
+                    <Border Style="{StaticResource Tarjeta}" Margin="0,4,0,0">
+                        <VerticalStackLayout>
+                            <VerticalStackLayout x:Name="ListaUltimos" />
+                            <Label x:Name="LblSinMovimientos" Style="{StaticResource Secundario}" Padding="24"
+                                   HorizontalTextAlignment="Center" Text="La cuenta no registra movimientos" IsVisible="False" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</vista:PestanaPage>

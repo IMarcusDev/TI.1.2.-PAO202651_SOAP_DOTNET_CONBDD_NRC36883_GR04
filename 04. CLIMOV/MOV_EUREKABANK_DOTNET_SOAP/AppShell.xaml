@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MOV_EUREKABANK_DOTNET_SOAP.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vista="clr-namespace:MOV_EUREKABANK_DOTNET_SOAP.Vista"
+    Title="EurekaBank"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.BackgroundColor="{StaticResource EurekaPrimario}"
+    Shell.TitleColor="White"
+    Shell.ForegroundColor="White"
+    Shell.TabBarBackgroundColor="White"
+    Shell.TabBarForegroundColor="{StaticResource EurekaPrimario}"
+    Shell.TabBarTitleColor="{StaticResource EurekaPrimario}"
+    Shell.TabBarUnselectedColor="{StaticResource TextoSecundario}">
+
+    <ShellContent Route="login" ContentTemplate="{DataTemplate vista:LoginPage}" />
+
+    <!-- Menú del perfil (ERS 8.1.1): Inicio, Consultar movimientos y Registrar movimiento; Cerrar sesión va en la barra -->
+    <TabBar Route="principal">
+        <ShellContent Title="Inicio" Icon="tab_inicio.png" Route="inicio"
+                      ContentTemplate="{DataTemplate vista:InicioPage}" />
+        <ShellContent Title="Movimientos" Icon="tab_movimientos.png" Route="movimientos"
+                      ContentTemplate="{DataTemplate vista:MovimientosPage}" />
+        <ShellContent Title="Operaciones" Icon="tab_operaciones.png" Route="operaciones"
+                      ContentTemplate="{DataTemplate vista:OperacionesPage}" />
+    </TabBar>
+</Shell>
