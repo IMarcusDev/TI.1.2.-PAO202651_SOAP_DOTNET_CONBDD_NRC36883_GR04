@@ -1,14 +1,23 @@
+using SoapCore;
+using WS_CON_UNI_DOTNET_SOAP.WS.Interfaces;
+using WS_CON_UNI_DOTNET_SOAP.WS.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Registrar SoapCore
+builder.Services.AddSoapCore();
 
+// Registrar servicios SOAP
+builder.Services.AddSingleton<ILoginWebService, LoginWebService>();
+builder.Services.AddSingleton<IMovimientoWebService, MovimientoWebService>();
+
+// Controllers y OpenAPI
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configuración del pipeline
 if (app.Environment.IsDevelopment())
 {
   app.MapOpenApi();
@@ -17,6 +26,24 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+// Endpoints SOAP
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+  endpoints.UseSoapEndpoint<ILoginWebService>(
+    "/LoginWebService.svc",
+    new SoapEncoderOptions(),
+    SoapSerializer.XmlSerializer
+  );
+
+  endpoints.UseSoapEndpoint<IMovimientoWebService>(
+    "/MovimientoWebService.svc",
+    new SoapEncoderOptions(),
+    SoapSerializer.XmlSerializer
+  );
+});
 
 app.MapControllers();
 
