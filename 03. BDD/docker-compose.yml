@@ -1,31 +1,69 @@
-# Local MariaDB for the EurekaBank SOAP server.
-# Values match 04. SERVIDOR/.../config/DBConfig.java:
-#   jdbc:mariadb://localhost:3306/EurekaBank  user root / password root
+# revisado y aprovado por Marcos Escobar
+# SQL Server local para el servidor EurekaBank .NET SOAP (TI.1.2).
+# Los valores coinciden con 04. SERVIDOR/.../Config/DBConfig.cs:
+#   Server=localhost,1433;Database=EurekaBank   usuario sa / clave Root1234!
 #
-# Start:   docker compose up -d        (run inside "03. BDD")
-# Stop:    docker compose down
-# Reset:   docker compose down -v      (deletes the data, the script runs again)
+# Iniciar:   docker compose up -d        (dentro de "03. BDD")
+# Detener:   docker compose down
+# Reiniciar: docker compose down -v      (borra los datos; los scripts se vuelven a ejecutar)
+#
+# La imagen de SQL Server no ejecuta scripts al arrancar, así que el servicio "init" espera
+# a que el servidor responda y, si la base EurekaBank no existe, la crea, ejecuta
+# EurekaBank_SQLServer.sql y carga seed.sql (usuarios de prueba al inicio de ese archivo).
+# Si la base ya existe no hace nada. Ver su resultado: docker compose logs init
+# El TI.1.4 usa el mismo puerto 1433: levante uno a la vez.
+name: eurekabank-ti12
+
 services:
-  mariadb:
-    # 11.4 = current LTS; supported by the Payara driver mariadb-java-client 3.5.1
-    image: mariadb:11.4
-    container_name: eurekabank-mariadb
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    container_name: eurekabank-ti12-sqlserver
     restart: unless-stopped
     environment:
-      MARIADB_ROOT_PASSWORD: root      # DBConfig PASSWORD (user root)
-      MARIADB_DATABASE: EurekaBank     # created empty, then the script below fills it
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: "Root1234!"   # PASSWORD de DBConfig (usuario sa)
     ports:
-      - "3306:3306"                    # host port used by DBConfig URL
+      - "1433:1433"                    # puerto de la URL de DBConfig
     volumes:
-      # Runs only on the first start (empty data volume), in alphabetical order
-      - ./EurekaBank_MySQL.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
-      # Keeps the data between restarts
-      - eurekabank-data:/var/lib/mysql
+      # Conserva los datos entre reinicios
+      - eurekabank-data:/var/opt/mssql
     healthcheck:
-      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q \"SELECT 1\" -b -o /dev/null"]
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 30
+      start_period: 20s
+
+  init:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    container_name: eurekabank-ti12-init
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    restart: "no"
+    environment:
+      MSSQL_SA_PASSWORD: "Root1234!"
+    volumes:
+      - ./EurekaBank_SQLServer.sql:/scripts/01-schema.sql:ro
+      - ./seed.sql:/scripts/02-seed.sql:ro
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - |
+        sqlcmd() { /opt/mssql-tools18/bin/sqlcmd -C -S sqlserver -U sa -P "$$MSSQL_SA_PASSWORD" -b "$$@"; }
+        existe=$$(sqlcmd -h -1 -W -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM sys.databases WHERE name = 'EurekaBank'") || exit 1
+        if [ "$$existe" = "1" ]; then
+          echo "La base EurekaBank ya existe; no se ejecutan los scripts."
+          exit 0
+        fi
+        sqlcmd -Q "CREATE DATABASE EurekaBank" || exit 1
+        if sqlcmd -d EurekaBank -i /scripts/01-schema.sql -i /scripts/02-seed.sql; then
+          echo "Base EurekaBank creada con los datos de seed.sql."
+        else
+          echo "Error al ejecutar los scripts; se elimina la base para reintentar en el próximo arranque."
+          sqlcmd -Q "DROP DATABASE EurekaBank"
+          exit 1
+        fi
 
 volumes:
   eurekabank-data:

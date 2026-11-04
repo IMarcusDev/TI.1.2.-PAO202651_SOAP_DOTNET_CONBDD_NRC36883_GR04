@@ -1,4 +1,4 @@
-﻿namespace WS_CON_UNI_DOTNET_SOAP.Models.Data
+﻿namespace WS_EUREKABANK_DOTNET_SOAP.Models.Data
 {
   public class Cuenta
   {

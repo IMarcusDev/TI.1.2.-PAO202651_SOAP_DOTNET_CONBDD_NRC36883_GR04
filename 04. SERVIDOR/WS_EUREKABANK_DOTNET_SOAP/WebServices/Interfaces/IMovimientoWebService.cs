@@ -1,7 +1,7 @@
 ﻿using System.ServiceModel;
-using WS_CON_UNI_DOTNET_SOAP.Models.DTO;
+using WS_EUREKABANK_DOTNET_SOAP.Models.DTO;
 
-namespace WS_CON_UNI_DOTNET_SOAP.WS.Interfaces
+namespace WS_EUREKABANK_DOTNET_SOAP.WS.Interfaces
 {
   [ServiceContract]
   public interface IMovimientoWebService

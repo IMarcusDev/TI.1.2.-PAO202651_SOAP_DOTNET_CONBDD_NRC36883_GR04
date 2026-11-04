@@ -1,6 +1,6 @@
-﻿using WS_CON_UNI_DOTNET_SOAP.Models.Data;
+﻿using WS_EUREKABANK_DOTNET_SOAP.Models.Data;
 
-namespace WS_CON_UNI_DOTNET_SOAP.Models.Interfaces
+namespace WS_EUREKABANK_DOTNET_SOAP.Models.Interfaces
 {
   public interface ILoginRepository
   {

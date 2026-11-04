@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 
-namespace WS_CON_UNI_DOTNET_SOAP.Config
+namespace WS_EUREKABANK_DOTNET_SOAP.Config
 {
   public class DBConfig
   {

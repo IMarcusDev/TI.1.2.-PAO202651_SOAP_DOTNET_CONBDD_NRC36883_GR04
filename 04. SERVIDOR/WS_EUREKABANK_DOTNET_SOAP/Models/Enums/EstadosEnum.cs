@@ -1,4 +1,4 @@
-﻿namespace WS_CON_UNI_DOTNET_SOAP.Models.Enums
+﻿namespace WS_EUREKABANK_DOTNET_SOAP.Models.Enums
 {
   public enum EstadosEnum
   {

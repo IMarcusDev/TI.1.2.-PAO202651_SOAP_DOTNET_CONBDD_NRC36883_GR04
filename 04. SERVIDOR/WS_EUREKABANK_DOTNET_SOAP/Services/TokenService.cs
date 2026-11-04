@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using WS_CON_UNI_DOTNET_SOAP.Models.Data;
+using WS_EUREKABANK_DOTNET_SOAP.Models.Data;
 
-namespace WS_CON_UNI_DOTNET_SOAP.Services
+namespace WS_EUREKABANK_DOTNET_SOAP.Services
 {
   public class TokenService
   {

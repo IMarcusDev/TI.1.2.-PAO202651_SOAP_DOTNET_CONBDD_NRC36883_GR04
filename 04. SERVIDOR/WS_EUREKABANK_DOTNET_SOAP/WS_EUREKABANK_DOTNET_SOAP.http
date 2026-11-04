@@ -1,6 +1,6 @@
-@WS_CON_UNI_DOTNET_SOAP_HostAddress = http://localhost:5171
+@WS_EUREKABANK_DOTNET_SOAP_HostAddress = http://localhost:5171
 
-GET {{WS_CON_UNI_DOTNET_SOAP_HostAddress}}/weatherforecast/
+GET {{WS_EUREKABANK_DOTNET_SOAP_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

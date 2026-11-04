@@ -3,7 +3,7 @@ namespace MOV_EUREKABANK_DOTNET_SOAP.Config;
 public static class SoapConfig
 {
     /// <summary>
-    /// Servidor SOAP de EurekaBank (WS_CON_UNI_DOTNET_SOAP, perfil http de launchSettings).
+    /// Servidor SOAP de EurekaBank (WS_EUREKABANK_DOTNET_SOAP, perfil http de launchSettings).
     /// 10.0.2.2 es el equipo anfitrión visto desde el emulador; en un celular físico use la IP del servidor.
     /// </summary>
     public const string UrlBase = "http://10.0.2.2:5171/";

@@ -79,8 +79,12 @@
                     <Border Style="{StaticResource Tarjeta}" Margin="0,10,0,0">
                         <VerticalStackLayout>
                             <VerticalStackLayout x:Name="ListaMovimientos" />
-                            <Label x:Name="LblVacio" Style="{StaticResource Secundario}" Padding="24"
-                                   HorizontalTextAlignment="Center" Text="La cuenta no registra movimientos" IsVisible="False" />
+                            <!-- Sin movimientos: Mike en un círculo sobre el aviso -->
+                            <VerticalStackLayout x:Name="LblVacio" Padding="24" Spacing="12" IsVisible="False">
+                                <Image Source="monstruo_mike.png" WidthRequest="64" HeightRequest="64" HorizontalOptions="Center" />
+                                <Label Style="{StaticResource Secundario}" HorizontalTextAlignment="Center"
+                                       Text="La cuenta no registra movimientos" />
+                            </VerticalStackLayout>
                         </VerticalStackLayout>
                     </Border>
                 </VerticalStackLayout>

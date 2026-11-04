@@ -1,13 +1,13 @@
-﻿using WS_CON_UNI_DOTNET_SOAP.Controllers;
-using WS_CON_UNI_DOTNET_SOAP.Models.Data;
-using WS_CON_UNI_DOTNET_SOAP.Models.DTO;
-using WS_CON_UNI_DOTNET_SOAP.Models.Enums;
-using WS_CON_UNI_DOTNET_SOAP.Services;
-using WS_CON_UNI_DOTNET_SOAP.WS.Interfaces;
+﻿using WS_EUREKABANK_DOTNET_SOAP.Controllers;
+using WS_EUREKABANK_DOTNET_SOAP.Models.Data;
+using WS_EUREKABANK_DOTNET_SOAP.Models.DTO;
+using WS_EUREKABANK_DOTNET_SOAP.Models.Enums;
+using WS_EUREKABANK_DOTNET_SOAP.Services;
+using WS_EUREKABANK_DOTNET_SOAP.WS.Interfaces;
 //revisado y aprovado por Marcos Escobar
 using Microsoft.Data.SqlClient;
 
-namespace WS_CON_UNI_DOTNET_SOAP.WS.Services
+namespace WS_EUREKABANK_DOTNET_SOAP.WS.Services
 {
   public class MovimientoWebService : IMovimientoWebService
   {

@@ -1,13 +1,13 @@
-﻿using WS_CON_UNI_DOTNET_SOAP.Models.Data;
-using WS_CON_UNI_DOTNET_SOAP.Models.Interfaces;
-using WS_CON_UNI_DOTNET_SOAP.Models.Repositories;
+﻿using WS_EUREKABANK_DOTNET_SOAP.Models.Data;
+using WS_EUREKABANK_DOTNET_SOAP.Models.Interfaces;
+using WS_EUREKABANK_DOTNET_SOAP.Models.Repositories;
 using System.Collections.Generic;
 //revisado y aprovado por Marcos Escobar
 using Microsoft.Data.SqlClient;
-using WS_CON_UNI_DOTNET_SOAP.Config;
-using WS_CON_UNI_DOTNET_SOAP.Services;
+using WS_EUREKABANK_DOTNET_SOAP.Config;
+using WS_EUREKABANK_DOTNET_SOAP.Services;
 
-namespace WS_CON_UNI_DOTNET_SOAP.Controllers
+namespace WS_EUREKABANK_DOTNET_SOAP.Controllers
 {
   public class MovimientoController
   {

@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
-using WS_CON_UNI_DOTNET_SOAP.Models.Data;
+using WS_EUREKABANK_DOTNET_SOAP.Models.Data;
 
-namespace WS_CON_UNI_DOTNET_SOAP.Models.DTO
+namespace WS_EUREKABANK_DOTNET_SOAP.Models.DTO
 {
   /// <summary>Un movimiento visto desde una cuenta, como lo devuelve consultarMovimientos.</summary>
   //revisado y aprovado por Marcos Escobar

@@ -1,4 +1,4 @@
-﻿namespace WS_CON_UNI_DOTNET_SOAP.Models.DTO
+﻿namespace WS_EUREKABANK_DOTNET_SOAP.Models.DTO
 {
   /// <summary>Datos de la cuenta que devuelve consultarMovimientos.</summary>
   //revisado y aprovado por Marcos Escobar

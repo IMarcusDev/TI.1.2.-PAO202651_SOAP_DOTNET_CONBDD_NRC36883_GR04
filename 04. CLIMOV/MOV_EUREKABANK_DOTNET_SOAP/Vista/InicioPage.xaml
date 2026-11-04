@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <vista:PestanaPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                    xmlns:vista="clr-namespace:MOV_EUREKABANK_DOTNET_SOAP.Vista"
@@ -18,9 +18,15 @@
                 </Border>
 
                 <!-- Cliente: cuenta de la sesión -->
-                <Border x:Name="TarjetaCuenta" Style="{StaticResource TarjetaPrimaria}" Margin="0,20,0,0"
+                <!-- El relleno va en el Grid para que la marca de agua y el círculo lleguen al borde redondeado. -->
+                <Border x:Name="TarjetaCuenta" Style="{StaticResource TarjetaPrimaria}" Margin="0,20,0,0" Padding="0"
                         MinimumHeightRequest="176" IsVisible="False">
-                    <Grid>
+                    <Grid Padding="22">
+                        <!-- Marca de agua de Monsters Inc. (ojos, manchas y puertas) al 10 % -->
+                        <Image Source="patron_monstruos.png" WidthRequest="360" HeightRequest="400" Opacity="0.28"
+                       HorizontalOptions="End" VerticalOptions="Start" Margin="-400,-22,-22,-400"
+                       InputTransparent="True" />
+
                         <!-- Detalle decorativo: círculo translúcido en la esquina superior derecha -->
                         <Ellipse WidthRequest="180" HeightRequest="180" Fill="#14FFFFFF"
                                  HorizontalOptions="End" VerticalOptions="Start" Margin="0,-92,-82,0" />
@@ -51,8 +57,13 @@
                 </Border>
 
                 <!-- Empleado: ventanilla -->
-                <Border x:Name="TarjetaVentanilla" Style="{StaticResource TarjetaPrimaria}" Margin="0,20,0,0" IsVisible="False">
-                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                <Border x:Name="TarjetaVentanilla" Style="{StaticResource TarjetaPrimaria}" Margin="0,20,0,0" Padding="0" IsVisible="False">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16" Padding="22">
+                        <!-- Marca de agua de Monsters Inc. (ojos, manchas y puertas) al 10 % -->
+                        <Image Source="patron_monstruos.png" WidthRequest="360" HeightRequest="400" Opacity="0.28"
+                       HorizontalOptions="End" VerticalOptions="Start" Margin="-400,-22,-22,-400"
+                       Grid.ColumnSpan="2" InputTransparent="True" />
+
                         <Border WidthRequest="50" HeightRequest="50" BackgroundColor="{StaticResource BlancoTranslucido}"
                                 StrokeThickness="0" StrokeShape="RoundRectangle 14" VerticalOptions="Center">
                             <comp:Icono Datos="{x:Static comp:Iconos.Banco}" Color="White" Tamano="24" />
@@ -79,8 +90,12 @@
                     <Border Style="{StaticResource Tarjeta}" Margin="0,4,0,0">
                         <VerticalStackLayout>
                             <VerticalStackLayout x:Name="ListaUltimos" />
-                            <Label x:Name="LblSinMovimientos" Style="{StaticResource Secundario}" Padding="24"
-                                   HorizontalTextAlignment="Center" Text="La cuenta no registra movimientos" IsVisible="False" />
+                            <!-- Sin movimientos: Mike en un círculo sobre el aviso -->
+                            <VerticalStackLayout x:Name="LblSinMovimientos" Padding="24" Spacing="12" IsVisible="False">
+                                <Image Source="monstruo_mike.png" WidthRequest="64" HeightRequest="64" HorizontalOptions="Center" />
+                                <Label Style="{StaticResource Secundario}" HorizontalTextAlignment="Center"
+                                       Text="La cuenta no registra movimientos" />
+                            </VerticalStackLayout>
                         </VerticalStackLayout>
                     </Border>
                 </VerticalStackLayout>

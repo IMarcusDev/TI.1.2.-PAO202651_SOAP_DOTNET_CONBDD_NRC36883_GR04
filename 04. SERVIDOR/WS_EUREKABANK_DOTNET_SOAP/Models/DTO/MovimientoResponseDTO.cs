@@ -1,4 +1,4 @@
-﻿namespace WS_CON_UNI_DOTNET_SOAP.Models.DTO
+﻿namespace WS_EUREKABANK_DOTNET_SOAP.Models.DTO
 {
   public class MovimientoResponseDTO : ResponseDTO
   {

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:comp="clr-namespace:MOV_EUREKABANK_DOTNET_SOAP.Vista.Componentes"
@@ -9,21 +9,30 @@
     <ScrollView>
         <VerticalStackLayout>
 
-            <!-- Encabezado con el logo -->
-            <VerticalStackLayout Background="{StaticResource GradientePrimario}"
-                                 Padding="24,48,24,88"
-                                 Spacing="4">
-                <Border WidthRequest="72" HeightRequest="72"
-                        BackgroundColor="{StaticResource BlancoTranslucido}"
-                        StrokeThickness="0" StrokeShape="RoundRectangle 18"
-                        HorizontalOptions="Center">
-                    <comp:Icono Datos="{x:Static comp:Iconos.Banco}" Color="White" Tamano="40" />
-                </Border>
-                <Label Text="EurekaBank" TextColor="White" FontSize="30" FontFamily="OpenSansSemibold"
-                       HorizontalOptions="Center" Margin="0,12,0,0" />
-                <Label Text="Banca móvil · Cuentas de ahorro" TextColor="{StaticResource TextoSobrePrimario}"
-                       FontSize="14" HorizontalOptions="Center" />
-            </VerticalStackLayout>
+            <!-- Encabezado con el logo y la marca de agua de Monsters Inc. -->
+            <Grid Background="{StaticResource GradientePrimario}" IsClippedToBounds="True">
+                <Image Source="patron_monstruos.png" WidthRequest="360" HeightRequest="400" Opacity="0.28"
+                       HorizontalOptions="Center" VerticalOptions="Start" Margin="0,0,0,-400"
+                       InputTransparent="True" />
+
+                <VerticalStackLayout Padding="24,48,24,36"
+                                     Spacing="4">
+                    <Border WidthRequest="72" HeightRequest="72"
+                            BackgroundColor="{StaticResource BlancoTranslucido}"
+                            StrokeThickness="0" StrokeShape="RoundRectangle 18"
+                            HorizontalOptions="Center">
+                        <comp:Icono Datos="{x:Static comp:Iconos.Banco}" Color="White" Tamano="40" />
+                    </Border>
+                    <Label Text="EurekaBank" TextColor="White" FontSize="30" FontFamily="OpenSansSemibold"
+                           HorizontalOptions="Center" Margin="0,12,0,0" />
+                    <Label Text="Banca móvil · Cuentas de ahorro" TextColor="{StaticResource TextoSobrePrimario}"
+                           FontSize="14" HorizontalOptions="Center" />
+
+                    <!-- Mike y Sulley se asoman detrás de la tarjeta del formulario (la tarjeta cubre sus pies). -->
+                    <Image Source="monstruos_bienvenida.png" HeightRequest="150" Aspect="AspectFit"
+                           HorizontalOptions="Center" Margin="0,8,0,0" />
+                </VerticalStackLayout>
+            </Grid>
 
             <!-- Tarjeta del formulario, superpuesta al encabezado -->
             <Border Style="{StaticResource Tarjeta}" StrokeShape="RoundRectangle 20"

@@ -1,6 +1,6 @@
 using SoapCore;
-using WS_CON_UNI_DOTNET_SOAP.WS.Interfaces;
-using WS_CON_UNI_DOTNET_SOAP.WS.Services;
+using WS_EUREKABANK_DOTNET_SOAP.WS.Interfaces;
+using WS_EUREKABANK_DOTNET_SOAP.WS.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
