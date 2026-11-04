@@ -23,6 +23,7 @@ services:
       ACCEPT_EULA: "Y"
       MSSQL_PID: Developer
       MSSQL_SA_PASSWORD: "Root1234!"   # PASSWORD de DBConfig (usuario sa)
+      TZ: America/Guayaquil           # hora de Ecuador para GETDATE(); sin esto el contenedor usa UTC
     ports:
       - "1433:1433"                    # puerto de la URL de DBConfig
     volumes:
