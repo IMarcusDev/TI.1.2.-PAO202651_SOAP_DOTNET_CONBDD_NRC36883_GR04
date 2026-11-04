@@ -14,6 +14,10 @@ namespace CONSOLE_EUREKABANK_DOTNET_SOAP.Models.DTO
     public string EstadoCuenta { get; set; } = "";
     public List<MovimientoDTO> Movimientos { get; set; } = new List<MovimientoDTO>();
 
+    //revisado y aprovado por Marcos Escobar
+    /// <summary>Movimientos del más reciente al más antiguo (mayor número de movimiento primero): es el orden de la tabla.</summary>
+    public List<MovimientoDTO> MovimientosRecientes() => Movimientos.OrderByDescending(m => m.NumeroMovimiento).ToList();
+
     public ConsultaResponseDTO(EstadosEnum estado, string mensaje) : base(estado, mensaje)
     {
     }

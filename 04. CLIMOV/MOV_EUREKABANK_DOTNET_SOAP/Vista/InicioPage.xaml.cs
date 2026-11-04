@@ -104,7 +104,7 @@ public partial class InicioPage : PestanaPage
 
         ConsultaMovimientos consulta = resultado.Datos!;
         MostrarCuenta(consulta.Cuenta);
-        MostrarUltimos(consulta.Movimientos, consulta.Cuenta.Moneda);
+        MostrarUltimos(consulta.MovimientosRecientes, consulta.Cuenta.Moneda);
     }
 
     private void MostrarEstadoCarga(string mensaje, bool conError)
@@ -126,13 +126,12 @@ public partial class InicioPage : PestanaPage
         LblEstadoCuenta.Text = cuenta.EstadoVisible;
     }
 
-    /// <summary>Muestra los últimos movimientos, del más reciente al más antiguo.</summary>
-    private void MostrarUltimos(IReadOnlyList<Movimiento> movimientos, string moneda)
+    /// <summary>Muestra los últimos movimientos; la lista ya viene del más reciente al más antiguo.</summary>
+    private void MostrarUltimos(IReadOnlyList<Movimiento> recientes, string moneda)
     {
-        Filas.Llenar(ListaUltimos, movimientos
-            .Skip(Math.Max(0, movimientos.Count - UltimosMovimientos))
-            .Reverse()
+        Filas.Llenar(ListaUltimos, recientes
+            .Take(UltimosMovimientos)
             .Select(m => Filas.Movimiento(m, moneda)));
-        LblSinMovimientos.IsVisible = movimientos.Count == 0;
+        LblSinMovimientos.IsVisible = recientes.Count == 0;
     }
 }

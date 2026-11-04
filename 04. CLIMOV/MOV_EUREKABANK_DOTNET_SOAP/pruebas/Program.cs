@@ -6,6 +6,7 @@ var suites = new List<(string Titulo, Ejecutor Ejecutor)>
 {
     ("Validador de datos", PruebasValidador.Crear()),
     ("Formato de importes y fechas", PruebasFormato.Crear()),
+    ("Orden de los movimientos", PruebasConsultaMovimientos.Crear()),
     ("Controlador de operaciones", PruebasOperacionControlador.Crear()),
     ("Repositorios SOAP (transporte simulado)", PruebasRepositorios.Crear()),
 };

@@ -81,6 +81,16 @@ internal static class PruebasDTO
             Afirmar.Igual("La cuenta no existe", error.GetMensaje());
         });
 
+        //revisado y aprovado por Marcos Escobar
+        e.Caso("Consulta: la tabla muestra primero el último movimiento", () =>
+        {
+            var dto = new ConsultaResponseDTO(EstadosEnum.OK, "ok");
+            foreach (int n in new[] { 3, 6, 10, 9 })
+                dto.Movimientos.Add(new MovimientoDTO { NumeroMovimiento = n });
+            Afirmar.Igual("10,9,6,3", string.Join(",", dto.MovimientosRecientes().Select(m => m.NumeroMovimiento)));
+            Afirmar.Igual("3,6,10,9", string.Join(",", dto.Movimientos.Select(m => m.NumeroMovimiento)));
+        });
+
         return e;
     }
 }

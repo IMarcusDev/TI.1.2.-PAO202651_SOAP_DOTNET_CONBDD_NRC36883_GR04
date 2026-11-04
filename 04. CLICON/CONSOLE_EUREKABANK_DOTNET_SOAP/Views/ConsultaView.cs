@@ -56,7 +56,7 @@ namespace CONSOLE_EUREKABANK_DOTNET_SOAP.Views
         return;
       }
 
-      List<string[]> filas = res.Movimientos
+      List<string[]> filas = res.MovimientosRecientes()
         .Select(m => new[]
         {
           m.NumeroMovimiento.ToString(),

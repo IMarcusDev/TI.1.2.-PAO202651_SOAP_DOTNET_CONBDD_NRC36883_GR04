@@ -121,7 +121,7 @@ public partial class MovimientosPage : PestanaPage
 
         int cantidad = consulta.Movimientos.Count;
         LblCantidad.Text = Textos.MovCantidad(cantidad);
-        Filas.Llenar(ListaMovimientos, consulta.Movimientos.Select(m => Filas.Movimiento(m, cuenta.Moneda)));
+        Filas.Llenar(ListaMovimientos, consulta.MovimientosRecientes.Select(m => Filas.Movimiento(m, cuenta.Moneda)));
         ListaMovimientos.IsVisible = cantidad > 0;
         LblVacio.IsVisible = cantidad == 0;
     }
