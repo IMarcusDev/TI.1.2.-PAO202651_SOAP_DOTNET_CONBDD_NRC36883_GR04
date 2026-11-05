@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ec.edu.monster</RootNamespace>
+    <AssemblyName>ESC_EUREKABANK_DOTNET_SOAP</AssemblyName>
+  </PropertyGroup>
+
+  <!-- The test project lives in pruebas/: keep it out of the app build. -->
+  <ItemGroup>
+    <Compile Remove="pruebas\**" />
+    <Page Remove="pruebas\**" />
+    <None Remove="pruebas\**" />
+    <Resource Remove="pruebas\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The only file the user edits to point the client at another server. -->
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Resource Include="Recursos\*.png" />
+  </ItemGroup>
+
+</Project>

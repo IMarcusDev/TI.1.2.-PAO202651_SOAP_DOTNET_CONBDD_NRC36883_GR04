@@ -1,0 +1,42 @@
+<Window x:Class="ec.edu.monster.vista.ComprobanteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Comprobante de operación"
+        Width="520"
+        SizeToContent="Height"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource Gris100}"
+        FontFamily="{StaticResource Fuente}">
+    <StackPanel Margin="28,24,28,20">
+        <TextBlock Text="Operación exitosa" Style="{StaticResource Titulo}" />
+
+        <Border Style="{StaticResource Tarjeta}" Margin="0,18,0,0">
+            <ItemsControl x:Name="Detalle">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Etiqueta}"
+                                       Style="{StaticResource Etiqueta}"
+                                       Margin="0" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Valor}"
+                                       Style="{StaticResource ValorRecibo}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <Button Content="Aceptar"
+                Style="{StaticResource BotonPrimario}"
+                HorizontalAlignment="Right"
+                Margin="0,18,0,0"
+                IsDefault="True"
+                Click="Aceptar" />
+    </StackPanel>
+</Window>

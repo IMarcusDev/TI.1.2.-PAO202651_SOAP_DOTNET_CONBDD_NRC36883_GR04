@@ -1,0 +1,75 @@
+<UserControl x:Class="ec.edu.monster.vista.MenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             FontFamily="{StaticResource Fuente}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="28">
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Bienvenido, " Style="{StaticResource Titulo}" />
+                <TextBlock Text="{Binding Nombre}" Style="{StaticResource Titulo}" />
+            </StackPanel>
+            <TextBlock Text="Seleccione una operación para continuar."
+                       Style="{StaticResource Subtitulo}"
+                       Margin="0,6,0,0" />
+
+            <UniformGrid Columns="2" Rows="2" Margin="0,22,0,0">
+                <Button Style="{StaticResource BotonTarjeta}"
+                        Margin="0,0,14,14"
+                        Command="{Binding AbrirCommand}"
+                        CommandParameter="movimientos"
+                        IsEnabled="{Binding PuedeConsultar}">
+                    <StackPanel>
+                        <TextBlock Text="Consultar movimientos"
+                                   Style="{StaticResource TituloSeccion}"
+                                   FontSize="16" />
+                        <TextBlock Text="{Binding MovimientosDetalle}"
+                                   Style="{StaticResource Subtitulo}"
+                                   Margin="0,8,0,0" />
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource BotonTarjeta}"
+                        Margin="0,0,0,14"
+                        Command="{Binding AbrirCommand}"
+                        CommandParameter="deposito"
+                        IsEnabled="{Binding PuedeDepositar}">
+                    <StackPanel>
+                        <TextBlock Text="Depósito"
+                                   Style="{StaticResource TituloSeccion}"
+                                   FontSize="16" />
+                        <TextBlock Text="{Binding DepositoDetalle}"
+                                   Style="{StaticResource Subtitulo}"
+                                   Margin="0,8,0,0" />
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource BotonTarjeta}"
+                        Margin="0,0,14,0"
+                        Command="{Binding AbrirCommand}"
+                        CommandParameter="retiro">
+                    <StackPanel>
+                        <TextBlock Text="Retiro"
+                                   Style="{StaticResource TituloSeccion}"
+                                   FontSize="16" />
+                        <TextBlock Text="{Binding RetiroDetalle}"
+                                   Style="{StaticResource Subtitulo}"
+                                   Margin="0,8,0,0" />
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource BotonTarjeta}"
+                        Command="{Binding AbrirCommand}"
+                        CommandParameter="transferencia">
+                    <StackPanel>
+                        <TextBlock Text="Transferencia"
+                                   Style="{StaticResource TituloSeccion}"
+                                   FontSize="16" />
+                        <TextBlock Text="{Binding TransferenciaDetalle}"
+                                   Style="{StaticResource Subtitulo}"
+                                   Margin="0,8,0,0" />
+                    </StackPanel>
+                </Button>
+            </UniformGrid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

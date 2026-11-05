@@ -1,0 +1,135 @@
+<UserControl x:Class="ec.edu.monster.vista.OperacionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             FontFamily="{StaticResource Fuente}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="28">
+        <StackPanel>
+            <TextBlock Text="{Binding Titulo}" Style="{StaticResource Titulo}" />
+            <TextBlock Text="{Binding Descripcion}"
+                       Style="{StaticResource Subtitulo}"
+                       Margin="0,6,0,0" />
+
+            <Border Style="{StaticResource Tarjeta}" Margin="0,20,0,0" MaxWidth="520" HorizontalAlignment="Left">
+                <StackPanel>
+                    <StackPanel Visibility="{Binding MuestraCuenta, Converter={StaticResource VisibleSi}}">
+                        <TextBlock Text="{Binding EtiquetaCuenta}"
+                                   Style="{StaticResource Etiqueta}"
+                                   Margin="0,0,0,6" />
+                        <TextBox Style="{StaticResource Campo}"
+                                 Text="{Binding Cuenta, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="{Binding Errores[cuenta]}"
+                                   Style="{StaticResource Error}"
+                                   Margin="0,4,0,0" />
+                    </StackPanel>
+
+                    <StackPanel Visibility="{Binding MuestraCuentaFija, Converter={StaticResource VisibleSi}}">
+                        <TextBlock Text="Cuenta de origen"
+                                   Style="{StaticResource Etiqueta}"
+                                   Margin="0,0,0,6" />
+                        <TextBox Style="{StaticResource Campo}"
+                                 Text="{Binding CuentaFija, Mode=OneWay}"
+                                 IsReadOnly="True" />
+                    </StackPanel>
+
+                    <StackPanel Visibility="{Binding MuestraOrigen, Converter={StaticResource VisibleSi}}"
+                                Margin="0,14,0,0">
+                        <TextBlock Text="Cuenta de origen"
+                                   Style="{StaticResource Etiqueta}"
+                                   Margin="0,0,0,6" />
+                        <TextBox Style="{StaticResource Campo}"
+                                 Text="{Binding Origen, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="{Binding Errores[origen]}"
+                                   Style="{StaticResource Error}"
+                                   Margin="0,4,0,0" />
+                    </StackPanel>
+
+                    <StackPanel Visibility="{Binding MuestraOrigenFijo, Converter={StaticResource VisibleSi}}"
+                                Margin="0,14,0,0">
+                        <TextBlock Text="Cuenta de origen"
+                                   Style="{StaticResource Etiqueta}"
+                                   Margin="0,0,0,6" />
+                        <TextBox Style="{StaticResource Campo}"
+                                 Text="{Binding CuentaFija, Mode=OneWay}"
+                                 IsReadOnly="True" />
+                    </StackPanel>
+
+                    <StackPanel Visibility="{Binding MuestraDestino, Converter={StaticResource VisibleSi}}"
+                                Margin="0,14,0,0">
+                        <TextBlock Text="Cuenta de destino"
+                                   Style="{StaticResource Etiqueta}"
+                                   Margin="0,0,0,6" />
+                        <TextBox Style="{StaticResource Campo}"
+                                 Text="{Binding Destino, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="{Binding Errores[destino]}"
+                                   Style="{StaticResource Error}"
+                                   Margin="0,4,0,0" />
+                    </StackPanel>
+
+                    <StackPanel Visibility="{Binding MuestraClave, Converter={StaticResource VisibleSi}}"
+                                Margin="0,14,0,0">
+                        <TextBlock Text="{Binding EtiquetaClave}"
+                                   Style="{StaticResource Etiqueta}"
+                                   Margin="0,0,0,6" />
+                        <PasswordBox x:Name="CampoClave"
+                                     Style="{StaticResource CampoClave}"
+                                     PasswordChanged="ClaveCambiada" />
+                        <TextBlock Text="{Binding Errores[clave]}"
+                                   Style="{StaticResource Error}"
+                                   Margin="0,4,0,0" />
+                    </StackPanel>
+
+                    <StackPanel Margin="0,14,0,0">
+                        <TextBlock Text="Importe (USD)"
+                                   Style="{StaticResource Etiqueta}"
+                                   Margin="0,0,0,6" />
+                        <TextBox Style="{StaticResource Campo}"
+                                 Text="{Binding Importe, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="{Binding Errores[importe]}"
+                                   Style="{StaticResource Error}"
+                                   Margin="0,4,0,0" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Margin="0,16,0,0"
+                    Background="{StaticResource Peligro50}"
+                    BorderBrush="{StaticResource Peligro600}"
+                    BorderThickness="4,0,0,0"
+                    CornerRadius="8"
+                    Padding="12,10"
+                    MaxWidth="520"
+                    HorizontalAlignment="Left">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HayErrorGeneral}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <TextBlock Text="{Binding ErrorGeneral}" Style="{StaticResource Error}" />
+            </Border>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,18,0,0"
+                        MaxWidth="520">
+                <Button Content="Volver"
+                        Style="{StaticResource BotonSecundario}"
+                        Margin="0,0,8,0"
+                        Command="{Binding VolverCommand}" />
+                <Button Content="Limpiar"
+                        Style="{StaticResource BotonSecundario}"
+                        Margin="0,0,8,0"
+                        Command="{Binding LimpiarCommand}" />
+                <Button Content="Revisar"
+                        Style="{StaticResource BotonPrimario}"
+                        IsDefault="True"
+                        IsEnabled="{Binding PuedeRevisar}"
+                        Command="{Binding RevisarCommand}" />
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
