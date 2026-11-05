@@ -66,7 +66,9 @@ public partial class App : Application
     private void MostrarPrincipal()
     {
         var controlador = new LoginControlador(_login!, _sesion!);
-        Abrir(new PrincipalWindow(_sesion!, NuevoEstadoViewModel(), async () =>
+        var modelo = new PrincipalViewModel(_sesion!, _movimientos!, NuevoEstadoViewModel(),
+            Confirmar, MostrarComprobante);
+        Abrir(new PrincipalWindow(modelo, async () =>
         {
             await controlador.CerrarSesionAsync();
             MostrarLogin();
@@ -74,6 +76,14 @@ public partial class App : Application
     }
 
     private EstadoServidorViewModel NuevoEstadoViewModel() => new(_estado!);
+
+    /// <summary>Confirmation question shown before a movement is sent to the server.</summary>
+    private static bool Confirmar(string pregunta)
+        => MessageBox.Show(pregunta, "Confirmar operación", MessageBoxButton.YesNo, MessageBoxImage.Question)
+           == MessageBoxResult.Yes;
+
+    private void MostrarComprobante(Comprobante comprobante)
+        => new ComprobanteWindow(comprobante) { Owner = _ventana }.ShowDialog();
 
     /// <summary>Shows the new window before closing the old one, so the application never flickers out.</summary>
     private void Abrir(Window ventana)

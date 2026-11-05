@@ -2,6 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controles="clr-namespace:ec.edu.monster.vista.controles"
+        xmlns:vista="clr-namespace:ec.edu.monster.vista"
+        xmlns:modelos="clr-namespace:ec.edu.monster.vista.modelos"
         Title="EurekaBank"
         Height="760"
         Width="1180"
@@ -10,6 +12,15 @@
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource Gris100}"
         FontFamily="{StaticResource Fuente}">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type modelos:MenuViewModel}">
+            <vista:MenuView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type modelos:OperacionViewModel}">
+            <vista:OperacionView />
+        </DataTemplate>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -73,12 +84,12 @@
 
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                     <StackPanel Margin="0,0,16,0" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding NombreVisible}"
+                        <TextBlock Text="{Binding Sesion.NombreVisible}"
                                    Foreground="{StaticResource Blanco}"
                                    FontSize="14"
                                    FontWeight="SemiBold"
                                    HorizontalAlignment="Right" />
-                        <TextBlock Text="{Binding TipoUsuario}"
+                        <TextBlock Text="{Binding Sesion.TipoUsuario}"
                                    Foreground="{StaticResource Marca100}"
                                    FontSize="12"
                                    HorizontalAlignment="Right" />
@@ -107,54 +118,31 @@
                                Style="{StaticResource Caption}"
                                FontWeight="SemiBold"
                                Margin="14,0,0,10" />
-                    <Button Content="Depósito"
+                    <Button Content="Inicio"
                             Style="{StaticResource BotonNavegacion}"
-                            IsEnabled="False" />
-                    <Button Content="Retiro"
-                            Style="{StaticResource BotonNavegacion}"
-                            IsEnabled="False" />
-                    <Button Content="Transferencia"
-                            Style="{StaticResource BotonNavegacion}"
-                            IsEnabled="False" />
+                            Command="{Binding MostrarMenuCommand}" />
                     <Button Content="Consultar movimientos"
                             Style="{StaticResource BotonNavegacion}"
-                            IsEnabled="False" />
-                    <TextBlock Text="Las operaciones se habilitan en la siguiente entrega."
-                               Style="{StaticResource Caption}"
-                               Margin="14,12,0,0" />
+                            IsEnabled="{Binding Menu.PuedeConsultar}"
+                            Command="{Binding Menu.AbrirCommand}"
+                            CommandParameter="movimientos" />
+                    <Button Content="Depósito"
+                            Style="{StaticResource BotonNavegacion}"
+                            IsEnabled="{Binding Menu.PuedeDepositar}"
+                            Command="{Binding Menu.AbrirCommand}"
+                            CommandParameter="deposito" />
+                    <Button Content="Retiro"
+                            Style="{StaticResource BotonNavegacion}"
+                            Command="{Binding Menu.AbrirCommand}"
+                            CommandParameter="retiro" />
+                    <Button Content="Transferencia"
+                            Style="{StaticResource BotonNavegacion}"
+                            Command="{Binding Menu.AbrirCommand}"
+                            CommandParameter="transferencia" />
                 </StackPanel>
             </Border>
 
-            <ScrollViewer Grid.Column="1" Padding="28">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Bienvenido, "
-                                   Style="{StaticResource TituloSeccion}" />
-                        <TextBlock Text="{Binding NombreVisible}"
-                                   Style="{StaticResource TituloSeccion}" />
-                    </StackPanel>
-                    <TextBlock Text="Seleccione una operación para continuar."
-                               Style="{StaticResource Subtitulo}"
-                               Margin="0,4,0,0" />
-
-                    <Border Style="{StaticResource Tarjeta}" Margin="0,20,0,0">
-                        <StackPanel>
-                            <Image Source="/Recursos/monstruos_bienvenida.png"
-                                   Height="180"
-                                   Stretch="Uniform"
-                                   HorizontalAlignment="Center" />
-                            <TextBlock Text="Su sesión está iniciada."
-                                       Style="{StaticResource Cuerpo}"
-                                       HorizontalAlignment="Center"
-                                       Margin="0,14,0,0" />
-                            <TextBlock Text="Use el menú de la izquierda para operar sobre las cuentas."
-                                       Style="{StaticResource Subtitulo}"
-                                       HorizontalAlignment="Center"
-                                       Margin="0,4,0,0" />
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-            </ScrollViewer>
+            <ContentControl Grid.Column="1" Content="{Binding Contenido}" />
         </Grid>
 
         <!-- Status bar -->

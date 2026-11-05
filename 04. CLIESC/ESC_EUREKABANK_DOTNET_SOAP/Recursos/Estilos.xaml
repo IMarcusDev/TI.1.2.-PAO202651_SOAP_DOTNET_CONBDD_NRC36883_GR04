@@ -22,6 +22,9 @@
 
     <FontFamily x:Key="Fuente">Segoe UI</FontFamily>
 
+    <!-- Shows an element only when its bound flag is true. -->
+    <BooleanToVisibilityConverter x:Key="VisibleSi" />
+
     <!-- Typography -->
     <Style x:Key="Titulo" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource Fuente}" />
