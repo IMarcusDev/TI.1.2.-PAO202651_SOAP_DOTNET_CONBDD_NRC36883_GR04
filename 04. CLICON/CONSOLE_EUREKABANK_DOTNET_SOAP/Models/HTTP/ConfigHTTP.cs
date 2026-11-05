@@ -18,7 +18,7 @@ namespace CONSOLE_EUREKABANK_DOTNET_SOAP.Models.HTTP
 
     //revisado y aprovado por Marcos Escobar
     // Dirección del servidor (perfil http) y espera máxima de RNF-007.
-    public static string BaseUrl { get; set; } = "http://localhost:5171";
+    public static string BaseUrl { get; set; } = "http://10.84.190.150:5171";
     public static TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(15);
 
     //revisado y aprovado por Marcos Escobar
