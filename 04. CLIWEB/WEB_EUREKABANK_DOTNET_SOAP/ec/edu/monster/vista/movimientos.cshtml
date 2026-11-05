@@ -1,0 +1,115 @@
+@model MovimientosVista
+@*
+  "Consultar movimientos" view. Rendered by MovimientosController (GET /movimientos).
+  Empleado: search form by account. Cliente: always their own account.
+  Movements come newest first (ordered in HistorialCuenta).
+*@
+@{
+    ViewData["Title"] = "Consultar movimientos";
+    ViewData["ActiveNav"] = "movimientos";
+    HistorialCuenta? historial = Model.Historial;
+}
+@section Estilos {
+    <link rel="stylesheet" href="~/css/operacion.css">
+    <link rel="stylesheet" href="~/css/movimientos.css">
+}
+<div class="content__title">
+    <h1 class="text-heading-xl">Consultar movimientos</h1>
+    <p class="text-body">Ver saldo e historial de transacciones de una cuenta</p>
+</div>
+
+<div class="movimientos-container">
+    @if (!string.IsNullOrEmpty(Model.Error))
+    {
+        <p class="alert alert--error" role="alert">@Model.Error</p>
+    }
+
+    @* Read-only query: a GET form, no antiforgery token needed *@
+    <form class="op-card" method="get" action="~/movimientos">
+        @if (Model.EsCliente)
+        {
+            <div class="field">
+                <span class="field__label">Su cuenta</span>
+                <p class="text-body" style="font-size: 16px; font-weight: 600; color: var(--brand-900); margin: 4px 0 0 0;">
+                    @Model.Cuenta
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="field">
+                <label class="field__label" for="cuenta">Número de cuenta</label>
+                <input class="field__input@(Model.ErrorCuenta is not null ? " field__input--error" : "")"
+                       type="text" id="cuenta" name="cuenta" maxlength="30"
+                       value="@Model.Cuenta" placeholder="Ingrese el número de cuenta"
+                       autocomplete="off" required autofocus
+                       aria-invalid="@(Model.ErrorCuenta is not null ? "true" : null)"
+                       aria-describedby="@(Model.ErrorCuenta is not null ? "cuenta-error" : null)">
+                @if (Model.ErrorCuenta is not null)
+                {
+                    <span id="cuenta-error" class="field__message field__message--error">@Model.ErrorCuenta</span>
+                }
+            </div>
+        }
+        <div class="op-actions">
+            <button class="btn btn--primary" type="submit">Consultar</button>
+        </div>
+    </form>
+
+    @if (historial?.Cuenta is not null)
+    {
+        <section class="op-card" aria-labelledby="cuenta-title">
+            <h2 id="cuenta-title" class="receipt__title">Datos de la cuenta</h2>
+            <dl class="receipt">
+                <div class="receipt__row"><dt>Número de cuenta</dt><dd>@historial.Cuenta.Numero</dd></div>
+                <div class="receipt__row"><dt>Titular</dt><dd>@historial.Cuenta.Titular</dd></div>
+                <div class="receipt__row"><dt>Moneda</dt><dd>@historial.Cuenta.Moneda</dd></div>
+                <div class="receipt__row"><dt>Saldo</dt><dd>@historial.Cuenta.SaldoFormateado</dd></div>
+                <div class="receipt__row"><dt>Estado</dt><dd>@historial.Cuenta.Estado</dd></div>
+            </dl>
+        </section>
+
+        <section aria-labelledby="movimientos-title">
+            <h2 id="movimientos-title" class="receipt__title" style="margin-bottom: 12px;">Movimientos registrados</h2>
+            @if (historial.SinMovimientos)
+            {
+                <p class="alert alert--info">La cuenta no tiene movimientos</p>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="movimientos-table">
+                        <thead>
+                            <tr>
+                                <th>N.º</th>
+                                <th>Fecha</th>
+                                <th>Tipo</th>
+                                <th>Acción</th>
+                                <th class="text-right">Importe</th>
+                                <th>Cuenta referencia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (MovimientoConsultado m in historial.Movimientos)
+                            {
+                                <tr>
+                                    <td>@m.Numero</td>
+                                    <td>@m.Fecha</td>
+                                    <td>@m.Tipo</td>
+                                    <td><span class="@(m.EsIngreso ? "movimiento--ingreso" : "movimiento--egreso")">@m.Accion</span></td>
+                                    <td class="text-right">@m.ImporteFormateado</td>
+                                    <td>@m.Referencia</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </section>
+
+        <div class="processed">
+            <span class="processed__caption">Procesado por:</span>
+            <partial name="_Badge" />
+        </div>
+    }
+</div>
