@@ -8,6 +8,8 @@ public abstract class ServicioSoap
 {
     public const string RespuestaIncompleta = "El servidor envió una respuesta vacía o incompleta.";
     public const string FallaServidor = "El servidor no pudo procesar la solicitud. Intente más tarde.";
+    public const string SinRespuestaATiempo = "El servidor no respondió a tiempo. La operación pudo "
+        + "haberse registrado: verifique el saldo antes de volver a intentarlo";
 
     private readonly ITransporte _transporte;
     private readonly string _contrato;

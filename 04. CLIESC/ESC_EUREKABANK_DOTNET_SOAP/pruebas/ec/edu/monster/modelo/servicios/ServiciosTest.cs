@@ -1,3 +1,4 @@
+using System.Net.Http;
 using ec.edu.monster.config;
 using ec.edu.monster.modelo;
 using ec.edu.monster.modelo.dto;
@@ -153,6 +154,40 @@ public class MovimientoServicioTest
 
         Assert.Equal(MovimientoResultado.Error("Saldo insuficiente"), await _servicio.RegistrarRetiroAsync("t", "1", 1m, "k"));
     }
+
+    /// <summary>The request reached the server, so the movement may exist: never say "could not connect".</summary>
+    [Theory]
+    [InlineData("registrarDeposito")]
+    [InlineData("registrarRetiro")]
+    [InlineData("registrarTransferencia")]
+    public async Task ASlowServerReportsThatTheOutcomeIsUnknown(string operacion)
+    {
+        _transporte.Fallar(operacion, new TaskCanceledException("timeout", new TimeoutException()));
+
+        MovimientoResultado resultado = await Registrar(operacion);
+
+        Assert.Equal(MovimientoResultado.Error(
+            "El servidor no respondió a tiempo. La operación pudo haberse registrado: "
+            + "verifique el saldo antes de volver a intentarlo"), resultado);
+    }
+
+    [Fact]
+    public async Task AMovementThatCannotConnectStillReportsTheServerAddress()
+    {
+        _transporte.Fallar("registrarDeposito", new HttpRequestException("refused"));
+
+        MovimientoResultado resultado = await _servicio.RegistrarDepositoAsync("t", "1", 1m);
+
+        Assert.Equal(MovimientoResultado.Error(
+            "No se pudo conectar con el servidor: http://localhost:5171/MovimientoWebService.svc"), resultado);
+    }
+
+    private Task<MovimientoResultado> Registrar(string operacion) => operacion switch
+    {
+        "registrarDeposito" => _servicio.RegistrarDepositoAsync("t", "1", 1m),
+        "registrarRetiro" => _servicio.RegistrarRetiroAsync("t", "1", 1m, "k"),
+        _ => _servicio.RegistrarTransferenciaAsync("t", "1", "2", 1m, "k"),
+    };
 
     [Fact]
     public async Task ConsultarMovimientosReadsTheAccountAndFormatsTheRowsNewestFirst()

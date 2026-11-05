@@ -99,6 +99,12 @@ public class MovimientoServicio(ITransporte transporte, Configuracion configurac
                 respuesta.Texto("numeroMovimiento") ?? "",
                 Formatos.Decimal(respuesta.Texto("nuevoSaldo")));
         }
+        catch (OperationCanceledException)
+        {
+            // The HttpClient timeout fired after the request was sent: the server may have
+            // registered the movement, so the user must check the balance before retrying.
+            return MovimientoResultado.Error(SinRespuestaATiempo);
+        }
         catch (Exception e)
         {
             // Never retried automatically, so a movement is not registered twice.

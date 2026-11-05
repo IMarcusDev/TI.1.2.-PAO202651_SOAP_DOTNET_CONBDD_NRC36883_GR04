@@ -37,8 +37,9 @@ public sealed class Configuracion
     public string Url(string servicio) => UrlBase + servicio;
 
     /// <summary>
-    /// Reads appsettings.json next to the executable. A missing or unreadable file falls back to
-    /// the defaults; an out-of-range port is a configuration error the caller reports.
+    /// Reads appsettings.json next to the executable. A missing file or a missing "Servidor"
+    /// section falls back to the defaults; invalid JSON, an unreadable file or an out-of-range
+    /// port throws, and the caller reports it as a configuration error.
     /// </summary>
     public static Configuracion Cargar(string? ruta = null)
     {
