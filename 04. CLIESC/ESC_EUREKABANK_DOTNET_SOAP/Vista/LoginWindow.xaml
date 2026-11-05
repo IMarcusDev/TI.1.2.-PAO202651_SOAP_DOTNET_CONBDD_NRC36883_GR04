@@ -1,11 +1,12 @@
 <Window x:Class="ec.edu.monster.vista.LoginWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controles="clr-namespace:ec.edu.monster.vista.controles"
         Title="EurekaBank"
-        Height="620"
-        Width="760"
-        MinHeight="560"
-        MinWidth="680"
+        Height="700"
+        Width="820"
+        MinHeight="620"
+        MinWidth="720"
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource Gris100}"
         FontFamily="{StaticResource Fuente}">
@@ -15,32 +16,127 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border Style="{StaticResource Tarjeta}"
-                Width="520"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-            <StackPanel>
-                <Image Source="/Recursos/monstruo_mike.png"
-                       Height="88"
-                       Stretch="Uniform"
-                       HorizontalAlignment="Center" />
-                <TextBlock Text="EurekaBank"
-                           Style="{StaticResource Titulo}"
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24">
+            <Border Style="{StaticResource Tarjeta}"
+                    Width="520"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Width="48"
+                                Height="48"
+                                CornerRadius="10"
+                                Background="{StaticResource Marca500}"
+                                VerticalAlignment="Center">
+                            <TextBlock Text="EB"
+                                       Foreground="{StaticResource Blanco}"
+                                       FontSize="18"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="EurekaBank"
+                                       Style="{StaticResource Titulo}"
+                                       FontSize="24" />
+                            <TextBlock Text="Banca en línea · Servicio SOAP / .NET"
+                                       Style="{StaticResource Subtitulo}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,14,0,0">
+                        <Border Background="{StaticResource ServicioSoap}"
+                                CornerRadius="10"
+                                Padding="10,3"
+                                Margin="0,0,8,0">
+                            <TextBlock Text="SOAP"
+                                       Foreground="{StaticResource Blanco}"
+                                       FontSize="11"
+                                       FontWeight="Bold" />
+                        </Border>
+                        <Border Background="{StaticResource ServicioDotnet}"
+                                CornerRadius="10"
+                                Padding="10,3">
+                            <TextBlock Text=".NET"
+                                       Foreground="{StaticResource Blanco}"
+                                       FontSize="11"
+                                       FontWeight="Bold" />
+                        </Border>
+                    </StackPanel>
+
+                    <Image Source="/Recursos/monstruo_mike.png"
+                           Height="96"
+                           Stretch="Uniform"
                            HorizontalAlignment="Center"
                            Margin="0,16,0,0" />
-                <TextBlock Text="Banca en línea · Servicio SOAP / .NET"
-                           Style="{StaticResource Subtitulo}"
-                           HorizontalAlignment="Center"
-                           Margin="0,4,0,0" />
-            </StackPanel>
-        </Border>
+
+                    <TextBlock Text="Ingrese como"
+                               Style="{StaticResource Etiqueta}"
+                               Margin="0,20,0,6" />
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Content="Empleado"
+                                     GroupName="Rol"
+                                     Style="{StaticResource OpcionRol}"
+                                     IsChecked="{Binding EsEmpleado, Mode=TwoWay}" />
+                        <RadioButton Content="Cliente"
+                                     GroupName="Rol"
+                                     Style="{StaticResource OpcionRol}"
+                                     IsChecked="{Binding EsCliente, Mode=TwoWay}" />
+                    </StackPanel>
+
+                    <TextBlock Text="{Binding EtiquetaUsuario}"
+                               Style="{StaticResource Etiqueta}"
+                               Margin="0,16,0,6" />
+                    <TextBox x:Name="CampoUsuario"
+                             Style="{StaticResource Campo}"
+                             Text="{Binding Usuario, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Text="Clave"
+                               Style="{StaticResource Etiqueta}"
+                               Margin="0,14,0,6" />
+                    <PasswordBox x:Name="CampoClave"
+                                 Style="{StaticResource CampoClave}"
+                                 PasswordChanged="ClaveCambiada" />
+
+                    <Border Margin="0,16,0,0"
+                            Background="{StaticResource Peligro50}"
+                            BorderBrush="{StaticResource Peligro600}"
+                            BorderThickness="4,0,0,0"
+                            CornerRadius="8"
+                            Padding="12,10">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding HayError}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock Text="{Binding Error}" Style="{StaticResource Error}" />
+                    </Border>
+
+                    <Button Content="Ingresar"
+                            Style="{StaticResource BotonPrimario}"
+                            Margin="0,20,0,0"
+                            IsDefault="True"
+                            IsEnabled="{Binding PuedeIngresar}"
+                            Command="{Binding IngresarCommand}" />
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
 
         <Border Grid.Row="1"
-                Padding="50,0,50,18"
-                Background="Transparent">
-            <TextBlock x:Name="EstadoTexto"
-                       Text="Comprobando servicio…"
-                       Style="{StaticResource Caption}" />
+                Background="{StaticResource Blanco}"
+                BorderBrush="{StaticResource Gris300}"
+                BorderThickness="0,1,0,0"
+                Padding="50,10">
+            <controles:IndicadorEstado x:Name="IndicadorEstadoControl" />
         </Border>
     </Grid>
 </Window>
