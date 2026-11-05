@@ -1,0 +1,33 @@
+@*
+  Sidebar navigation. ViewData["ActiveNav"] (inicio | movimientos | deposito | retiro | transferencia)
+  highlights the current screen. Depósito is employee-only (AuthFilter): a Cliente sees it disabled.
+*@
+@{
+    string activo = ViewData["ActiveNav"] as string ?? "";
+    bool esEmpleado = SesionUsuario.EsEmpleado(Context.Session);
+
+    void Item(string clave, string ruta, string texto)
+    {
+        bool actual = activo == clave;
+        <li><a class="nav__item@(actual ? " nav__item--active" : "")" href="@Url.Content(ruta)" aria-current="@(actual ? "page" : null)">@texto</a></li>
+    }
+}
+<aside class="sidebar">
+    <p class="sidebar__caption">MENÚ</p>
+    <nav aria-label="Menú principal">
+        <ul class="nav">
+            @{ Item("inicio", "~/menu", "Inicio"); }
+            @{ Item("movimientos", "~/movimientos", "Consultar movimientos"); }
+            @if (esEmpleado)
+            {
+                Item("deposito", "~/deposito", "Depósito");
+            }
+            else
+            {
+                <li><span class="nav__item nav__item--disabled" aria-disabled="true">Depósito</span></li>
+            }
+            @{ Item("retiro", "~/retiro", "Retiro"); }
+            @{ Item("transferencia", "~/transferencia", "Transferencia"); }
+        </ul>
+    </nav>
+</aside>

@@ -1,0 +1,17 @@
+@* App header (logo, service badge, user, logout). Session values come from LoginController. *@
+<header class="app-header">
+    <div class="app-header__left">
+        <span class="logo"><span class="logo__mark">EB</span>EurekaBank</span>
+        <partial name="_Badge" />
+    </div>
+
+    <div class="app-header__right">
+        <div class="user">
+            <span class="user__name">@Context.Session.GetString(SesionUsuario.Nombre)</span>
+            <span class="user__role">@Context.Session.GetString(SesionUsuario.TipoUsuario)</span>
+        </div>
+        <form method="post" action="~/logout" asp-antiforgery="true">
+            <button class="btn btn--secondary" type="submit">Cerrar sesión</button>
+        </form>
+    </div>
+</header>

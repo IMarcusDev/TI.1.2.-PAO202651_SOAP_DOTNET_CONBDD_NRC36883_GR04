@@ -1,0 +1,27 @@
+@*
+  Layout of every screen after login: header, sidebar and the content of the page.
+  ViewData["Title"] is the page title; ViewData["ActiveNav"] highlights the sidebar entry.
+  Pages add their own stylesheets in the "Estilos" section.
+*@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] | EurekaBank</title>
+    <link rel="stylesheet" href="~/css/eurekabank.css">
+    <link rel="stylesheet" href="~/css/menu.css">
+    @await RenderSectionAsync("Estilos", required: false)
+</head>
+<body>
+<partial name="_Header" />
+
+<div class="app-body">
+    <partial name="_Sidebar" />
+
+    <main class="content">
+        @RenderBody()
+    </main>
+</div>
+</body>
+</html>

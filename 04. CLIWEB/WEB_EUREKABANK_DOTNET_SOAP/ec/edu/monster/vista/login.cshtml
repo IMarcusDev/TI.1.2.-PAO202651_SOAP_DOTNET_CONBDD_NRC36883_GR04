@@ -1,0 +1,91 @@
+@model LoginVista
+@*
+  Login view. Rendered by LoginController (GET/POST /login).
+  Design: Figma "EurekaBank - Plantillas UI", frames "Web · Login" / "Web · Login (error)".
+*@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Iniciar sesión | EurekaBank</title>
+    <link rel="stylesheet" href="~/css/eurekabank.css">
+    <link rel="stylesheet" href="~/css/login.css">
+</head>
+<body>
+<main class="login-page">
+    <section class="login-card" aria-labelledby="login-title">
+
+        <div class="login-card__top">
+            <span class="logo"><span class="logo__mark">EB</span>EurekaBank</span>
+            <partial name="_Badge" />
+        </div>
+
+        <div class="login-card__title">
+            <h1 id="login-title" class="text-heading-xl">Iniciar sesión</h1>
+            <p class="text-body">Ingrese sus credenciales para continuar</p>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.Aviso))
+        {
+            <p class="alert alert--info" role="status">@Model.Aviso</p>
+        }
+        @if (!string.IsNullOrEmpty(Model.Error))
+        {
+            <p class="alert alert--error" role="alert">@Model.Error</p>
+        }
+
+        <form class="login-form" method="post" action="~/login" asp-antiforgery="true">
+            <div class="field">
+                <span class="field__label">Tipo de acceso</span>
+                <div style="display: flex; gap: 20px; align-items: center; padding: 4px 0;">
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="radio" name="tipo" value="empleado" checked="@(!Model.EsCliente)" onchange="actualizarTipo('empleado')">
+                        <span>Empleado</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="radio" name="tipo" value="cliente" checked="@Model.EsCliente" onchange="actualizarTipo('cliente')">
+                        <span>Cliente</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="field">
+                <label id="username-label" class="field__label" for="username">@(Model.EsCliente ? "Número de cuenta" : "Usuario")</label>
+                <input class="field__input" type="text" id="username" name="username"
+                       value="@Model.Username"
+                       placeholder="@(Model.EsCliente ? "Ingrese su número de cuenta" : "Ingrese su usuario")"
+                       autocomplete="username" required autofocus>
+            </div>
+
+            <div class="field">
+                <label class="field__label" for="password">Clave</label>
+                <input class="field__input" type="password" id="password" name="password"
+                       placeholder="Ingrese su clave" autocomplete="current-password" required>
+            </div>
+
+            <button class="btn btn--primary btn--block" type="submit">Ingresar</button>
+        </form>
+
+        @* Optional enhancement: the labels are also right without JavaScript after a POST *@
+        <script>
+            function actualizarTipo(tipo) {
+                var label = document.getElementById('username-label');
+                var input = document.getElementById('username');
+                if (tipo === 'cliente') {
+                    if (label) label.textContent = 'Número de cuenta';
+                    if (input) input.placeholder = 'Ingrese su número de cuenta';
+                } else {
+                    if (label) label.textContent = 'Usuario';
+                    if (input) input.placeholder = 'Ingrese su usuario';
+                }
+            }
+        </script>
+
+    </section>
+</main>
+</body>
+</html>
