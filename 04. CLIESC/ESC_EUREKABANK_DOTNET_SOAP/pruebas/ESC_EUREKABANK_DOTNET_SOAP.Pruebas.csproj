@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
-    <RootNamespace>ec.edu.monster.pruebas</RootNamespace>
+    <RootNamespace>ec.edu.monster</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

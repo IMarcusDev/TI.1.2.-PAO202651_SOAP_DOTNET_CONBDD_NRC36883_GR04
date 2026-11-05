@@ -1,0 +1,119 @@
+<UserControl x:Class="ec.edu.monster.vista.MovimientosView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             FontFamily="{StaticResource Fuente}"
+             Loaded="AlCargar">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="28">
+        <StackPanel>
+            <TextBlock Text="Consultar movimientos" Style="{StaticResource Titulo}" />
+            <TextBlock Text="Ver saldo e historial de una cuenta"
+                       Style="{StaticResource Subtitulo}"
+                       Margin="0,6,0,0" />
+
+            <!-- A Cliente has no search form: the account comes from the session. -->
+            <Border Style="{StaticResource Tarjeta}"
+                    Margin="0,20,0,0"
+                    MaxWidth="520"
+                    HorizontalAlignment="Left"
+                    Visibility="{Binding MuestraBusqueda, Converter={StaticResource VisibleSi}}">
+                <StackPanel>
+                    <TextBlock Text="Número de cuenta"
+                               Style="{StaticResource Etiqueta}"
+                               Margin="0,0,0,6" />
+                    <TextBox Style="{StaticResource Campo}"
+                             Text="{Binding Cuenta, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Tarjeta}"
+                    Margin="0,16,0,0"
+                    Visibility="{Binding HayHistorial, Converter={StaticResource VisibleSi}}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Número" Style="{StaticResource Caption}" Margin="0,2,24,2" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Numero}" Style="{StaticResource ValorRecibo}" Margin="0,2" />
+                        <TextBlock Grid.Row="1" Text="Titular" Style="{StaticResource Caption}" Margin="0,2,24,2" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Titular}" Style="{StaticResource ValorRecibo}" Margin="0,2" />
+                        <TextBlock Grid.Row="2" Text="Moneda" Style="{StaticResource Caption}" Margin="0,2,24,2" />
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Moneda}" Style="{StaticResource ValorRecibo}" Margin="0,2" />
+                        <TextBlock Grid.Row="3" Text="Saldo" Style="{StaticResource Caption}" Margin="0,2,24,2" />
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Saldo}" Style="{StaticResource ValorRecibo}" Margin="0,2" />
+                        <TextBlock Grid.Row="4" Text="Estado" Style="{StaticResource Caption}" Margin="0,2,24,2" />
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding EstadoCuenta}" Style="{StaticResource ValorRecibo}" Margin="0,2" />
+                    </Grid>
+
+                    <TextBlock Text="Movimientos"
+                               Style="{StaticResource TituloSeccion}"
+                               Margin="0,20,0,10" />
+
+                    <TextBlock Text="La cuenta no tiene movimientos"
+                               Style="{StaticResource Subtitulo}"
+                               Visibility="{Binding SinMovimientos, Converter={StaticResource VisibleSi}}" />
+
+                    <DataGrid ItemsSource="{Binding Movimientos}"
+                              Style="{StaticResource Tabla}"
+                              Height="280"
+                              Visibility="{Binding HayMovimientos, Converter={StaticResource VisibleSi}}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="N.º" Binding="{Binding Numero}" Width="80" />
+                            <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha}" Width="140" />
+                            <DataGridTextColumn Header="Tipo" Binding="{Binding Tipo}" Width="120" />
+                            <DataGridTextColumn Header="Acción" Binding="{Binding Accion}" Width="110">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource CeldaTabla}">
+                                        <Style.Triggers>
+                                            <!-- INGRESO is shown as a positive movement. -->
+                                            <DataTrigger Binding="{Binding EsIngreso}" Value="True">
+                                                <Setter Property="Foreground" Value="{StaticResource Exito600}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Importe" Binding="{Binding ImporteFormateado}" Width="120" />
+                            <DataGridTextColumn Header="Cuenta referencia" Binding="{Binding Referencia}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+
+            <Border Margin="0,16,0,0"
+                    Background="{StaticResource Peligro50}"
+                    BorderBrush="{StaticResource Peligro600}"
+                    BorderThickness="4,0,0,0"
+                    CornerRadius="8"
+                    Padding="12,10"
+                    HorizontalAlignment="Left"
+                    MaxWidth="520"
+                    Visibility="{Binding HayErrorGeneral, Converter={StaticResource VisibleSi}}">
+                <TextBlock Text="{Binding ErrorGeneral}" Style="{StaticResource Error}" />
+            </Border>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,18,0,0">
+                <Button Content="Volver"
+                        Style="{StaticResource BotonSecundario}"
+                        Margin="0,0,8,0"
+                        Command="{Binding VolverCommand}" />
+                <Button Content="Consultar"
+                        Style="{StaticResource BotonPrimario}"
+                        IsDefault="True"
+                        IsEnabled="{Binding PuedeConsultar}"
+                        Command="{Binding ConsultarCommand}" />
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
