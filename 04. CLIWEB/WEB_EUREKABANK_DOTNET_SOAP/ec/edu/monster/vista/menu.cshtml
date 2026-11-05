@@ -1,0 +1,61 @@
+@*
+  Menu view (home after login). Rendered by MenuController (GET /menu).
+  Design: Figma "EurekaBank - Plantillas UI", frame "Web · Inicio (Empleado)".
+*@
+@{
+    ViewData["Title"] = "Menú";
+    ViewData["ActiveNav"] = "inicio";
+    string nombre = Context.Session.GetString(SesionUsuario.Nombre) ?? "";
+    bool esEmpleado = SesionUsuario.EsEmpleado(Context.Session);
+}
+<div class="content__title">
+    <h1 class="text-heading-xl">Bienvenido, @nombre</h1>
+    <p class="text-body">Seleccione una operación</p>
+</div>
+
+<div class="cards">
+    <a class="card" href="~/movimientos">
+        <span class="card__icon" aria-hidden="true">C</span>
+        <span class="card__title">Consultar movimientos</span>
+        <span class="card__text">Ver saldo e historial de una cuenta</span>
+    </a>
+    @* Depósito is employee-only (AuthFilter): a Cliente sees it disabled *@
+    @if (esEmpleado)
+    {
+        <a class="card" href="~/deposito">
+            <span class="card__icon" aria-hidden="true">D</span>
+            <span class="card__title">Depósito</span>
+            <span class="card__text">Registrar un ingreso en una cuenta</span>
+        </a>
+        <a class="card" href="~/retiro">
+            <span class="card__icon" aria-hidden="true">R</span>
+            <span class="card__title">Retiro</span>
+            <span class="card__text">Registrar una salida de una cuenta</span>
+        </a>
+        <a class="card" href="~/transferencia">
+            <span class="card__icon" aria-hidden="true">T</span>
+            <span class="card__title">Transferencia</span>
+            <span class="card__text">Mover fondos entre dos cuentas</span>
+        </a>
+    }
+    else
+    {
+        <div class="card card--disabled" aria-disabled="true">
+            <span class="card__icon" aria-hidden="true">D</span>
+            <span class="card__title">Depósito</span>
+            <span class="card__text">Registrar un ingreso en una cuenta</span>
+        </div>
+        <a class="card" href="~/retiro">
+            <span class="card__icon" aria-hidden="true">R</span>
+            <span class="card__title">Retiro</span>
+            <span class="card__text">Registrar una salida de su cuenta</span>
+        </a>
+        <a class="card" href="~/transferencia">
+            <span class="card__icon" aria-hidden="true">T</span>
+            <span class="card__title">Transferencia</span>
+            <span class="card__text">Mover fondos desde su cuenta</span>
+        </a>
+    }
+</div>
+
+<p class="alert alert--info">Este cliente consume el servicio SOAP desarrollado en .NET.</p>

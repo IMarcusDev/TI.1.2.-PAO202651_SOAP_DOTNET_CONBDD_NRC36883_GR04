@@ -1,0 +1,13 @@
+@model ClaveVista
+@* Account key input of the confirmation step (Empleado only); never rendered with a value. *@
+<div class="field">
+    <label class="field__label" for="clave">@Model.Etiqueta</label>
+    <input class="field__input@(Model.Error is not null ? " field__input--error" : "")"
+           type="password" id="clave" name="clave" autocomplete="off"
+           aria-invalid="@(Model.Error is not null ? "true" : null)"
+           aria-describedby="@(Model.Error is not null ? "clave-error" : null)">
+    @if (Model.Error is not null)
+    {
+        <span id="clave-error" class="field__message field__message--error">@Model.Error</span>
+    }
+</div>

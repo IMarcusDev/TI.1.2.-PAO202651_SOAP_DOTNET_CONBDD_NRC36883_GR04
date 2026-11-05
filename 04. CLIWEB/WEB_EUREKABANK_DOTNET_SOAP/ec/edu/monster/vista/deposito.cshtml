@@ -1,0 +1,66 @@
+@model OperacionVista
+@*
+  Deposit view. Rendered by DepositoController (GET/POST /deposito); Model.Vista selects the state:
+  formulario, confirmacion or comprobante.
+  Design: Figma "EurekaBank - Plantillas UI", frames "Web · Transferencia (Empleado)",
+  "Web · Confirmación" and "Web · Comprobante".
+*@
+@{
+    ViewData["Title"] = "Depósito";
+    ViewData["ActiveNav"] = "deposito";
+}
+@section Estilos {
+    <link rel="stylesheet" href="~/css/operacion.css">
+}
+<div class="content__title">
+    <h1 class="text-heading-xl">Depósito</h1>
+    <p class="text-body">Registrar un ingreso en una cuenta</p>
+</div>
+
+@if (Model.Vista == OperacionVista.Comprobante)
+{
+    <partial name="_Recibo" model="@(new ReciboVista(Model, "~/deposito", [
+        ("Operación", "operacion"),
+        ("Cuenta destino", "cuenta"),
+        ("Importe", "importe"),
+        ("N.º de movimiento", "idMovimiento"),
+        ("Nuevo saldo", "nuevoSaldo"),
+        ("Fecha", "fecha"),
+    ]))" />
+}
+else if (Model.Vista == OperacionVista.Confirmacion)
+{
+    <section class="op-dialog" aria-labelledby="confirmar-title">
+        <h2 id="confirmar-title" class="op-dialog__title">Confirmar depósito</h2>
+        <p class="op-dialog__text">
+            ¿Depositar <strong>@Model.ImporteFormateado</strong>
+            en la cuenta <strong>@Model.Cuenta</strong>?
+        </p>
+        @* Hidden values are validated again by the controller *@
+        <form class="op-form" method="post" action="~/deposito" asp-antiforgery="true">
+            <input type="hidden" name="cuenta" value="@Model.Cuenta">
+            <input type="hidden" name="importe" value="@Model.Importe">
+            <div class="op-actions">
+                <button class="btn btn--secondary" type="submit" name="paso" value="editar">Volver</button>
+                <button class="btn btn--primary" type="submit" name="paso" value="confirmar">Confirmar</button>
+            </div>
+        </form>
+    </section>
+}
+else
+{
+    <form class="op-card" method="post" action="~/deposito" asp-antiforgery="true">
+        @if (!string.IsNullOrEmpty(Model.Error))
+        {
+            <p class="alert alert--error" role="alert">@Model.Error</p>
+        }
+
+        <partial name="_Campo" model="@(new CampoVista("cuenta", "Cuenta destino", Model.Cuenta, "Ingrese la cuenta de destino", Model.ErrorDe("cuenta")))" />
+        <partial name="_Campo" model="@CampoVista.ImporteDe(Model)" />
+
+        <div class="op-actions">
+            <a class="btn btn--secondary" href="~/menu">Cancelar</a>
+            <button class="btn btn--primary" type="submit" name="paso" value="revisar">Revisar</button>
+        </div>
+    </form>
+}

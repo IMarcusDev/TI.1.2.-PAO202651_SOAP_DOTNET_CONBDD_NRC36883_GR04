@@ -1,0 +1,25 @@
+@model CampoVista
+@*
+  One text input of an operation form with its label and messages (same markup as the JSPs):
+  the error replaces the hint; a read-only field is the Cliente's own account.
+*@
+@{
+    string? error = Model.Error;
+    string? mensajeId = error is not null || Model.Ayuda is not null ? Model.Id + "-message" : null;
+}
+<div class="field">
+    <label class="field__label" for="@Model.Id">@Model.Etiqueta</label>
+    <input class="field__input@(error is not null ? " field__input--error" : "")"
+           type="text" id="@Model.Id" name="@Model.Id" maxlength="@Model.MaxLength" inputmode="@Model.InputMode"
+           value="@Model.Valor" placeholder="@Model.Placeholder" autocomplete="off" required
+           readonly="@Model.SoloLectura"
+           aria-invalid="@(error is not null ? "true" : null)" aria-describedby="@mensajeId">
+    @if (error is not null)
+    {
+        <span id="@mensajeId" class="field__message field__message--error">@error</span>
+    }
+    else if (Model.Ayuda is not null)
+    {
+        <span id="@mensajeId" class="field__message">@Model.Ayuda</span>
+    }
+</div>

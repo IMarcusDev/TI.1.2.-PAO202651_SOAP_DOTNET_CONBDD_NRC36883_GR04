@@ -1,0 +1,24 @@
+@model ReciboVista
+@* Receipt after a successful operation (Post/Redirect/Get). *@
+<section class="op-card" aria-labelledby="comprobante-title">
+    <p class="alert alert--success" role="status">@Model.Vista.ValorRecibo("mensaje")</p>
+    <h2 id="comprobante-title" class="receipt__title">Comprobante</h2>
+    <dl class="receipt">
+        @foreach ((string etiqueta, string clave) in Model.Filas)
+        {
+            string? valor = Model.Vista.ValorRecibo(clave);
+            if (valor is not null)
+            {
+                <div class="receipt__row"><dt>@etiqueta</dt><dd>@valor</dd></div>
+            }
+        }
+    </dl>
+    <div class="processed">
+        <span class="processed__caption">Procesado por:</span>
+        <partial name="_Badge" />
+    </div>
+    <div class="op-actions">
+        <a class="btn btn--secondary" href="@Url.Content(Model.RutaNueva)">Nueva operación</a>
+        <a class="btn btn--primary" href="~/menu">Volver al menú</a>
+    </div>
+</section>
