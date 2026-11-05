@@ -1,0 +1,75 @@
+@model OperacionVista
+@*
+  Transfer view. Rendered by TransferenciaController (GET/POST /transferencia); Model.Vista selects
+  the state: formulario, confirmacion or comprobante. A Cliente sees their own account as the
+  read-only source and is not asked for the key.
+  Design: Figma "EurekaBank - Plantillas UI", frames "Web · Transferencia (Empleado)",
+  "Web · Confirmación" and "Web · Comprobante".
+*@
+@{
+    ViewData["Title"] = "Transferencia";
+    ViewData["ActiveNav"] = "transferencia";
+}
+@section Estilos {
+    <link rel="stylesheet" href="~/css/operacion.css">
+}
+<div class="content__title">
+    <h1 class="text-heading-xl">Transferencia</h1>
+    <p class="text-body">Mover fondos entre dos cuentas</p>
+</div>
+
+@if (Model.Vista == OperacionVista.Comprobante)
+{
+    <partial name="_Recibo" model="@(new ReciboVista(Model, "~/transferencia", [
+        ("Operación", "operacion"),
+        ("Cuenta de origen", "origen"),
+        ("Cuenta de destino", "destino"),
+        ("Importe", "importe"),
+        ("N.º de movimiento", "idMovimiento"),
+        ("Nuevo saldo", "nuevoSaldo"),
+        ("Fecha", "fecha"),
+    ]))" />
+}
+else if (Model.Vista == OperacionVista.Confirmacion)
+{
+    <section class="op-dialog" aria-labelledby="confirmar-title">
+        <h2 id="confirmar-title" class="op-dialog__title">Confirmar transferencia</h2>
+        <p class="op-dialog__text">
+            ¿Transferir <strong>@Model.ImporteFormateado</strong>
+            de la cuenta <strong>@Model.Origen</strong>
+            a la cuenta <strong>@Model.Destino</strong>?
+        </p>
+        @* Hidden values are validated again by the controller *@
+        <form class="op-form" method="post" action="~/transferencia" asp-antiforgery="true">
+            <input type="hidden" name="origen" value="@Model.Origen">
+            <input type="hidden" name="destino" value="@Model.Destino">
+            <input type="hidden" name="importe" value="@Model.Importe">
+            @if (!Model.EsCliente)
+            {
+                <partial name="_Clave" model="@(new ClaveVista("Clave de la cuenta de origen", Model.ErrorDe("clave")))" />
+            }
+            <div class="op-actions">
+                <button class="btn btn--secondary" type="submit" name="paso" value="editar">Volver</button>
+                <button class="btn btn--primary" type="submit" name="paso" value="confirmar">Confirmar</button>
+            </div>
+        </form>
+    </section>
+}
+else
+{
+    <form class="op-card" method="post" action="~/transferencia" asp-antiforgery="true">
+        @if (!string.IsNullOrEmpty(Model.Error))
+        {
+            <p class="alert alert--error" role="alert">@Model.Error</p>
+        }
+
+        <partial name="_Campo" model="@(new CampoVista("origen", "Cuenta de origen", Model.Origen, "Ingrese la cuenta de origen", Model.ErrorDe("origen")) { SoloLectura = Model.EsCliente })" />
+        <partial name="_Campo" model="@(new CampoVista("destino", "Cuenta de destino", Model.Destino, "Ingrese la cuenta de destino", Model.ErrorDe("destino")))" />
+        <partial name="_Campo" model="@CampoVista.ImporteDe(Model)" />
+
+        <div class="op-actions">
+            <a class="btn btn--secondary" href="~/menu">Cancelar</a>
+            <button class="btn btn--primary" type="submit" name="paso" value="revisar">Revisar</button>
+        </div>
+    </form>
+}

@@ -104,6 +104,9 @@ public class SesionTest : IDisposable
 
     [Theory]
     [InlineData("/menu")]
+    [InlineData("/deposito")]
+    [InlineData("/retiro")]
+    [InlineData("/transferencia")]
     public async Task ProtectedScreensSendAVisitorToTheLogin(string ruta)
     {
         HttpResponseMessage respuesta = await _app.Navegador().GetAsync(ruta);
